@@ -1,23 +1,55 @@
-# Maintainer: Phoenixlzx < phoenixlzx@xblue.tk >
-
 pkgname=vuze
-pkgver=4.7.1.2
-pkgrel=1
-pkgdesc='One of the most powerful bitTorrent client with GUI in the world, written in Java.'
+pkgver=4.7.2.0
+pkgrel=2.2
+pkgdesc="One of the most powerful bitTorrent client with GUI in the world, written in Java."
 arch=('i686' 'x86_64')
-url='http://www.vuze.com/'
+url="http://azureus.sf.net/"
 license=('GPL')
-depends=('java-runtime' 'libgnomeui')
-optdepends=('xulrunner192: install if vuze crashes.')
-source=("http://sourceforge.net/projects/azureus/files/vuze/Vuze_4712/Vuze_4712_linux.tar.bz2/download")
-md5sums=('0a946df1eccb8d4e23b5aa8b40ab8747')
-#[[ $CARCH == 'x86_64' ]] && source[0]="http://sourceforge.net/projects/azureus/files/vuze/Vuze_4702/Vuze_4702_linux-x86_64.tar.bz2/download" && md5sums[0]='c6230f17d383410476fc807c37a1daad'
+depends=('java-runtime' 'desktop-file-utils')
+optdepends=('libgnomeui: for vuze GUI')
+install=vuze.install
+options=(!strip)
+
+source=(
+  "http://downloads.sourceforge.net/azureus/Vuze_${pkgver:0:1}${pkgver:2:1}${pkgver:4:1}${pkgver:6:1}.jar"
+  "http://downloads.sourceforge.net/azureus/Vuze_${pkgver:0:1}${pkgver:2:1}${pkgver:4:1}${pkgver:6:1}_linux.tar.bz2")
+noextract=("Vuze_${pkgver//./}.jar")
+
+md5sums=('613652748d31e99d06e170bb3ea974ee'
+         '0fd06683ebdad5448dc3284c68affb8b')
 
 package() {
-  install -d ${pkgdir}/usr/share
-  cp -r vuze ${pkgdir}/usr/share
-  install -Dm755 vuze/vuze ${pkgdir}/usr/bin/vuze
-  sed -i 's%#PROGRAM_DIR="/home/username/apps/azureus"%PROGRAM_DIR="/usr/share/vuze"%' ${pkgdir}/usr/bin/vuze
-  install -Dm644 vuze/vuze.png ${pkgdir}/usr/share/pixmaps/vuze.png
-  install -Dm644 vuze/vuze.desktop  ${pkgdir}/usr/share/applications/vuze.desktop
+  cd "$srcdir/$pkgname"
+
+  #install systemwide plugins
+  install -Dm644 plugins/azplugins/azplugins_2.1.6.jar "$pkgdir/usr/share/vuze/plugins/azplugins/azplugins_2.1.6.jar"
+  install -Dm644 plugins/azrating/azrating_1.3.1.jar "$pkgdir/usr/share/vuze/plugins/azrating/azrating_1.3.1.jar"
+  install -Dm644 plugins/azupdater/Updater.jar "$pkgdir/usr/share/vuze/plugins/azupdater/Updater.jar"
+  install -Dm644 plugins/azupdater/azupdaterpatcher_1.8.17.jar "$pkgdir/usr/share/vuze/plugins/azupdater/azupdaterpatcher_1.8.17.jar"
+  install -Dm644 plugins/azupdater/azureus.sig "$pkgdir/usr/share/vuze/plugins/azupdater/azureus.sig"
+  install -Dm644 plugins/azupdater/plugin.properties "$pkgdir/usr/share/vuze/plugins/azupdater/plugin.properties"
+  install -Dm644 plugins/azupnpav/azupnpav_0.4.1.jar "$pkgdir/usr/share/vuze/plugins/azupnpav/azupnpav_0.4.1.jar"
+  install -Dm644 plugins/azupnpav/azureus.sig "$pkgdir/usr/share/vuze/plugins/azupnpav/azureus.sig"
+  install -Dm644 plugins/azupnpav/plugin.properties "$pkgdir/usr/share/vuze/plugins/azupnpav/plugin.properties"
+
+  #install desktop entries
+  install -Dm644 vuze.desktop  "${pkgdir}/usr/share/applications/vuze.desktop"
+  install -Dm644 vuze.png "${pkgdir}/usr/share/pixmaps/vuze.png"
+  install -Dm644 vuze.torrent.png "${pkgdir}/usr/share/pixmaps/vuze.torrent.png"
+  install -Dm644 vuze.schemas "${pkgdir}/usr/share/gconf/schemas/vuze.schemas"
+
+  # install SWT
+  if test $CARCH == i686; then
+    install -Dm644 swt/swt32.jar "${pkgdir}/usr/share/vuze/swt32.jar"
+  fi
+  if test $CARCH == x86_64; then
+    install -Dm644 swt/swt64.jar "${pkgdir}/usr/share/vuze/swt64.jar" 
+  fi
+
+  # install vuze
+  install -Dm755 vuze "${pkgdir}/usr/bin/vuze"
+  sed -i 's|#PROGRAM_DIR="/home/username/apps/azureus"|PROGRAM_DIR="/usr/share/vuze"|' ${pkgdir}/usr/bin/vuze
+  install -Dm644 "${srcdir}/Vuze_${pkgver//./}.jar" "${pkgdir}/usr/share/vuze/Azureus2.jar"
 }
+
+# vim:set ts=2 sw=2 et:
