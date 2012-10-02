@@ -1,12 +1,12 @@
 pkgname=vuze
 pkgver=4.7.2.0
-pkgrel=2.2
+pkgrel=3
 pkgdesc="One of the most powerful bitTorrent client with GUI in the world, written in Java."
 arch=('i686' 'x86_64')
 url="http://azureus.sf.net/"
 license=('GPL')
 depends=('java-runtime' 'desktop-file-utils')
-optdepends=('libgnomeui: for vuze GUI')
+optdepends=('libwebkit: for vuze browser functionality')
 install=vuze.install
 options=(!strip)
 
