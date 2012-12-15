@@ -1,0 +1,10 @@
+*~
+pkg/
+src/
+*.gz
+*.bz2
+*.xz
+*.tgz
+*.tbz
+*.txz
+*.jar
