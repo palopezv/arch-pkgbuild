@@ -18,7 +18,7 @@ source=(
   "http://downloads.sourceforge.net/azureus/Vuze_${pkgver:0:1}${pkgver:2:1}${pkgver:4:1}${pkgver:6:1}_linux.tar.bz2")
 noextract=("Vuze_${pkgver//./}.jar")
 
-md5sums=('ca146cce279c1d5da56f570ba79c881a'
+md5sums=('88696519b464fb1262c778fdf4f21bd0'
          '444a3bca0f63a88071966f9b11dfc0f8')
 
 
