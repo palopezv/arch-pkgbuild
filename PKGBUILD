@@ -3,7 +3,7 @@
 
 pkgname=vuze
 pkgver=4.8.1.0
-pkgrel=2
+pkgrel=3
 pkgdesc="One of the most powerful bitTorrent client with GUI in the world, written in Java."
 arch=('i686' 'x86_64')
 url="http://azureus.sf.net/"
