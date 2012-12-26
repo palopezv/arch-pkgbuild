@@ -1,9 +1,13 @@
-# Contributor: phoenixlzx < phoenixlzx at phoenixsec.org >
-# Contributor: vorbote
+# Original maintainer: td123 <gostrc at gmail.com>
+# Previous maintainer: phoenixlzx < phoenixlzx at phoenixsec.org >
+# Maintainer: Vorbote <palopezv at gmail.com>
+
+# This PKGBUILD provided to you under the terms of the BSD 2-clause
+# licence.
 
 pkgname=vuze
 pkgver=4.8.1.2
-pkgrel=4
+pkgrel=5
 _ver=${pkgver//./}
 _extra=a
 pkgdesc="One of the most powerful bitTorrent client with GUI in the world, written in Java."
