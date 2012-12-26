@@ -3,7 +3,8 @@
 
 pkgname=vuze
 pkgver=4.8.1.2
-pkgrel=2
+pkgrel=3
+_ver=${pkgver//./}
 _extra=a
 pkgdesc="One of the most powerful bitTorrent client with GUI in the world, written in Java."
 arch=('i686' 'x86_64')
@@ -15,7 +16,7 @@ install=vuze.install
 options=(!strip)
 
 source=(
-  "http://downloads.sourceforge.net/azureus/vuze/Vuze_${pkgver//./}/Vuze_${pkgver//./}${_extra}_linux.tar.bz2")
+  "http://downloads.sourceforge.net/azureus/vuze/Vuze_${_ver}/Vuze_${_ver}${_extra}_linux.tar.bz2")
 
 package() {
   cd "${srcdir}/${pkgname}"
