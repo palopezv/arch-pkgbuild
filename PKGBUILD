@@ -3,7 +3,8 @@
 
 pkgname=vuze
 pkgver=4.8.1.2
-pkgrel=1
+pkgrel=2
+_extra=a
 pkgdesc="One of the most powerful bitTorrent client with GUI in the world, written in Java."
 arch=('i686' 'x86_64')
 url="http://azureus.sf.net/"
@@ -14,7 +15,7 @@ install=vuze.install
 options=(!strip)
 
 source=(
-  "http://downloads.sourceforge.net/azureus/Vuze_${pkgver:0:1}${pkgver:2:1}${pkgver:4:1}${pkgver:6:1}_linux.tar.bz2")
+  "http://downloads.sourceforge.net/azureus/vuze/Vuze_${pkgver//./}/Vuze_${pkgver//./}${_extra}_linux.tar.bz2")
 
 package() {
   cd "${srcdir}/${pkgname}"
@@ -43,4 +44,4 @@ package() {
   install -Dm644 Azureus2.jar "${pkgdir}/usr/share/vuze/Azureus2.jar"
 }
 
-sha256sums=('47f94e713920c82c334da9d2998e8baa8895582a59c593a97abd8c5d7aa92aa8')
+sha256sums=('4a8c7b04af84d15a08ead14589d03fe276e131a0208534ed24a338982bbd5ad7')
