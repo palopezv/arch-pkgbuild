@@ -3,7 +3,7 @@
 
 pkgname=vuze
 pkgver=4.8.1.2
-pkgrel=3
+pkgrel=4
 _ver=${pkgver//./}
 _extra=a
 pkgdesc="One of the most powerful bitTorrent client with GUI in the world, written in Java."
@@ -24,7 +24,6 @@ package() {
   #install systemwide plugins
   mkdir -p "${pkgdir}/usr/share/vuze"
   cp -a "${srcdir}/${pkgname}/plugins" "${pkgdir}/usr/share/vuze/"
-  chown -R root:root "${pkgdir}/usr/share/vuze/plugins"
 
   #install desktop entries
   install -Dm644 vuze.desktop  "${pkgdir}/usr/share/applications/vuze.desktop"
