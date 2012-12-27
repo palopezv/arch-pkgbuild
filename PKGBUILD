@@ -1,7 +1,7 @@
-# Maintainer: Pedro Alejandro López-Valencia <palopezv@gmail.com>
+# Maintainer: Pedro Alejandro López-Valencia <palopezv at gmail.com>
 #
-# This PKGBUILD is provided under the BSD 2-clause license.
-# Please see the file LICENSE for details.
+# This file is provided under the BSD 2-clause license.
+# <http://opensource.org/licenses/BSD-2-Clause>
 #
 # Patches welcome. Send pull requests to
 # https://github.com/vorbote/vuze-plugin-mldht
