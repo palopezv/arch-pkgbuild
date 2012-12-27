@@ -15,11 +15,9 @@ url=http://azureus.sourceforge.net/plugin_details.php?plugin=azneti2p
 license=('GPL2')
 depends=('vuze')
 options=(!strip)
-source=("http://azureus.sourceforge.net/plugins/azneti2p_${pkgver}.jar"
-		LICENSE)
+source=("http://azureus.sourceforge.net/plugins/azneti2p_${pkgver}.jar")
 noextract=("azneti2p_${pkgver}.jar")
-md5sums=('154f1460b337c3f878cff769253d91e3'
-		 '9856d5aee8a66a89022e539f1f5341ad')
+md5sums=('154f1460b337c3f878cff769253d91e3')
 
 build () {
 	cd "$srcdir"
