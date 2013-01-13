@@ -7,8 +7,8 @@
 # https://github.com/vorbote/vuze-plugin-i2p
 
 pkgname=vuze-plugin-i2p
-pkgver=0.3.0
-pkgrel=2
+pkgver=0.3.2
+pkgrel=1
 pkgdesc="Vuze plugin for the I2P darknet network. When you need to go underground."
 arch=('any')
 url=http://azureus.sourceforge.net/plugin_details.php?plugin=azneti2p
@@ -17,7 +17,7 @@ depends=('vuze')
 options=(!strip)
 source=("http://azureus.sourceforge.net/plugins/azneti2p_${pkgver}.jar")
 noextract=("azneti2p_${pkgver}.jar")
-md5sums=('154f1460b337c3f878cff769253d91e3')
+md5sums=('d7c49dcca24a0a30e1480e908ffc1f23')
 
 build () {
 	cd "$srcdir"
