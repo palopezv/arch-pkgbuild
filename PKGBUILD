@@ -18,7 +18,10 @@ arch=('i686' 'x86_64')
 url="http://azureus.sf.net/"
 license=('GPL')
 depends=('java-runtime' 'desktop-file-utils')
-optdepends=('libgnomeui: for vuze GUI')
+optdepends=(
+	'xulrunner192: for vuze channels GUI'
+	'webkitgtk2: for vuze channels GUI instead of xulrunner192'
+	)
 install=vuze.install
 options=(!strip)
 
