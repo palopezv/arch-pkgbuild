@@ -62,7 +62,9 @@ package() {
   install -Dm755 vuze "${pkgdir}/usr/bin/vuze"
   sed -i 's|#PROGRAM_DIR="/home/username/apps/azureus"|PROGRAM_DIR="/usr/share/vuze"|' ${pkgdir}/usr/bin/vuze
   install -Dm644 Azureus2.jar "${pkgdir}/usr/share/vuze/Azureus2.jar"
-
+  
+  # Drop garbage
+  rm -f "${pkgdir}"/usr/share/vuze/plugins/azplugins/azplugins_2.1.6.jar
 }
 
 sha256sums=('1e8c9e7c6005cfefe212d4abd02c18e35a3d5b9a6722712e464ef17633235300')
