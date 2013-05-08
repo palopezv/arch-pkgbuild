@@ -26,14 +26,14 @@ install=vuze.install
 options=(!strip)
 
 source=(
-  "http://downloads.sourceforge.net/azureus/vuze/Vuze_${_ver}/Vuze_${_ver}${_extra}_linux.tar.bz2")
+  "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra"_linux.tar.bz2")
 
 package() {
-  cd "${srcdir}/${pkgname}"
+  cd "$srcdir/$pkgname"
 
   #install systemwide plugins
-  mkdir -p "${pkgdir}"/usr/share/vuze
-  cp -a "${srcdir}/${pkgname}"/plugins "${pkgdir}"/usr/share/vuze/
+  mkdir -p "$pkgdir"/usr/share/vuze
+  cp -a "$srcdir/$pkgname"/plugins "$pkgdir"/usr/share/vuze/
 
   # Add magnet mimetype to desktop file.
   # This works as shoot-from-the-hip hack but I feel so dirty,
@@ -46,25 +46,25 @@ package() {
 
 
   #install desktop entries
-  install -Dm644 vuze.desktop  "${pkgdir}"/usr/share/applications/vuze.desktop
-  install -Dm644 vuze.png "${pkgdir}"/usr/share/pixmaps/vuze.png
-  install -Dm644 vuze.torrent.png "${pkgdir}"/usr/share/pixmaps/vuze.torrent.png
-  install -Dm644 vuze.schemas "${pkgdir}"/usr/share/gconf/schemas/vuze.schemas
+  install -Dm644 vuze.desktop  "$pkgdir"/usr/share/applications/vuze.desktop
+  install -Dm644 vuze.png "$pkgdir"/usr/share/pixmaps/vuze.png
+  install -Dm644 vuze.torrent.png "$pkgdir"/usr/share/pixmaps/vuze.torrent.png
+  install -Dm644 vuze.schemas "$pkgdir"/usr/share/gconf/schemas/vuze.schemas
 
   # install SWT
   if [[ $CARCH == i686 ]] ; then
-    install -Dm644 swt/swt32.jar "${pkgdir}"/usr/share/vuze/swt32.jar
+    install -Dm644 swt/swt32.jar "$pkgdir"/usr/share/vuze/swt32.jar
   elif [[ $CARCH == x86_64 ]] ; then
-    install -Dm644 swt/swt64.jar "${pkgdir}"/usr/share/vuze/swt64.jar
+    install -Dm644 swt/swt64.jar "$pkgdir"/usr/share/vuze/swt64.jar
   fi
 
   # install vuze
   install -Dm755 vuze "${pkgdir}"/usr/bin/vuze
-  sed -i 's|#PROGRAM_DIR="/home/username/apps/azureus"|PROGRAM_DIR="/usr/share/vuze"|' "${pkgdir}"/usr/bin/vuze
-  install -Dm644 Azureus2.jar "${pkgdir}"/usr/share/vuze/Azureus2.jar
+  sed -i 's|#PROGRAM_DIR="/home/username/apps/azureus"|PROGRAM_DIR="/usr/share/vuze"|' "$pkgdir"/usr/bin/vuze
+  install -Dm644 Azureus2.jar "$pkgdir"/usr/share/vuze/Azureus2.jar
   
   # Drop garbage
-  rm -f "${pkgdir}"/usr/share/vuze/plugins/azplugins/azplugins_2.1.6.jar
+  rm -f "$pkgdir"/usr/share/vuze/plugins/azplugins/azplugins_2.1.6.jar
 }
 
 sha256sums=('1e8c9e7c6005cfefe212d4abd02c18e35a3d5b9a6722712e464ef17633235300')
