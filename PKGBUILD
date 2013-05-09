@@ -10,7 +10,7 @@
 
 pkgname=vuze
 pkgver=5.0.0.0
-pkgrel=1
+pkgrel=2
 _ver=${pkgver//./}
 _extra=
 pkgdesc="The bittorrent kitchen-sink servlet."
@@ -24,9 +24,11 @@ optdepends=(
 	)
 install=vuze.install
 options=(!strip)
+noextract=(Vuze_"$_ver""$_extra".jar)
 
 source=(
-  "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra"_linux.tar.bz2")
+  "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra"_linux.tar.bz2"
+  "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra".jar")
 
 package() {
   cd "$srcdir/$pkgname"
@@ -61,11 +63,14 @@ package() {
   # install vuze
   install -Dm755 vuze "${pkgdir}"/usr/bin/vuze
   sed -i 's|#PROGRAM_DIR="/home/username/apps/azureus"|PROGRAM_DIR="/usr/share/vuze"|' "$pkgdir"/usr/bin/vuze
-  install -Dm644 Azureus2.jar "$pkgdir"/usr/share/vuze/Azureus2.jar
+  # Java and Ruby people are IDIOTS when it comes to creating proper releases.
+  #install -Dm644 Azureus2.jar "$pkgdir"/usr/share/vuze/Azureus2.jar
+  install -Dm644 "$srcdir"/Vuze_"$_ver""$_extra".jar "$pkgdir"/usr/share/vuze/Azureus2.jar
   
   # Drop garbage
   rm -f "$pkgdir"/usr/share/vuze/plugins/azplugins/azplugins_2.1.6.jar
   rm -f "$pkgdir"/usr/share/vuze/plugins/azupnpav/azupnpav_0.4.4.jar
 }
 
-sha256sums=('720f51155dbf95674e833d964fe4d2d3356588fe46d8a1df9735d8f29fe5d906')
+sha256sums=('720f51155dbf95674e833d964fe4d2d3356588fe46d8a1df9735d8f29fe5d906'
+            '037587fe5180d2488d7db4257afbe8ad32d9dc66a7ad3d1de7b56eb73e9b6569')
