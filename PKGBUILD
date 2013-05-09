@@ -14,6 +14,7 @@ pkgrel=2
 _ver=${pkgver//./}
 _extra=
 pkgdesc="The bittorrent kitchen-sink servlet."
+provides=("azureus")
 arch=('i686' 'x86_64')
 url="http://azureus.sf.net/"
 license=('GPL')
@@ -24,11 +25,12 @@ optdepends=(
 	)
 install=vuze.install
 options=(!strip)
-noextract=(Vuze_"$_ver""$_extra".jar)
+noextract=("Vuze_"$_ver""$_extra".jar" "azrating_1.4.2.jar")
 
 source=(
   "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra"_linux.tar.bz2"
-  "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra".jar")
+  "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra".jar"
+  "http://plugins.vuze.com/plugins/azrating_1.4.2.jar")
 
 package() {
   cd "$srcdir/$pkgname"
@@ -66,11 +68,15 @@ package() {
   # Java and Ruby people are IDIOTS when it comes to creating proper releases.
   #install -Dm644 Azureus2.jar "$pkgdir"/usr/share/vuze/Azureus2.jar
   install -Dm644 "$srcdir"/Vuze_"$_ver""$_extra".jar "$pkgdir"/usr/share/vuze/Azureus2.jar
+  # Truly blabbering, stuttering MORONS.
+  install -Dm644 "$srcdir"/azrating_1.4.2.jar "$pkgdir"/usr/share/vuze/plugins/azrating/
   
   # Drop garbage
   rm -f "$pkgdir"/usr/share/vuze/plugins/azplugins/azplugins_2.1.6.jar
   rm -f "$pkgdir"/usr/share/vuze/plugins/azupnpav/azupnpav_0.4.4.jar
+  rm -f "$pkgdir"/usr/share/vuze/plugins/azrating/azrating_1.3.1.jar
 }
 
 sha256sums=('720f51155dbf95674e833d964fe4d2d3356588fe46d8a1df9735d8f29fe5d906'
-            '037587fe5180d2488d7db4257afbe8ad32d9dc66a7ad3d1de7b56eb73e9b6569')
+            '037587fe5180d2488d7db4257afbe8ad32d9dc66a7ad3d1de7b56eb73e9b6569'
+            '393b7fd8fec99f799c00b51ea49c0d8b36dce423b32308eeff7c40a9d892b7de')
