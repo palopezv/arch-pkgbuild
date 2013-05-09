@@ -10,7 +10,7 @@
 
 pkgname=vuze
 pkgver=5.0.0.0
-pkgrel=2
+pkgrel=3
 _ver=${pkgver//./}
 _extra=
 pkgdesc="The bittorrent kitchen-sink servlet."
