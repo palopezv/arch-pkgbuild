@@ -9,8 +9,8 @@
 # https://github.com/vorbote/archlinux-vuze
 
 pkgname=vuze
-pkgver=4.9.0.0
-pkgrel=2
+pkgver=5.0.0.0
+pkgrel=1
 _ver=${pkgver//./}
 _extra=
 pkgdesc="The bittorrent kitchen-sink servlet."
@@ -65,6 +65,7 @@ package() {
   
   # Drop garbage
   rm -f "$pkgdir"/usr/share/vuze/plugins/azplugins/azplugins_2.1.6.jar
+  rm -f "$pkgdir"/usr/share/vuze/plugins/azupnpav/azupnpav_0.4.4.jar
 }
 
-sha256sums=('1e8c9e7c6005cfefe212d4abd02c18e35a3d5b9a6722712e464ef17633235300')
+sha256sums=('720f51155dbf95674e833d964fe4d2d3356588fe46d8a1df9735d8f29fe5d906')
