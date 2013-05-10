@@ -71,8 +71,10 @@ package() {
   # install vuze
   install -Dm755 vuze "${pkgdir}"/usr/bin/vuze
   sed -i 's|#PROGRAM_DIR="/home/username/apps/azureus"|PROGRAM_DIR="/usr/share/vuze"|' "$pkgdir"/usr/bin/vuze
-
   #install -Dm644 Azureus2.jar "$pkgdir"/usr/share/vuze/Azureus2.jar
+
+  # install the license
+  install -Dm644 TOS.txt "$pkgdir"/usr/share/licenses/vuze/TOS.txt
 
   # Java and Ruby people are IDIOTS when it comes to creating proper releases.
   install -Dm644 "$srcdir"/Vuze_"$_ver""$_extra".jar "$pkgdir"/usr/share/vuze/Azureus2.jar
