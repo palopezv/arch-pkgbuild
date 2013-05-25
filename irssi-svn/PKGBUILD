@@ -39,6 +39,6 @@ build() {
 package() {
   cd "$srcdir"/"$pkgname"
   make DESTDIR="$pkgdir" install
-  rm -f "$pkgdir"usr/lib/irssi/modules/*.la # Drop rogue libtool files.
+  rm -f "$pkgdir"/usr/lib/irssi/modules/*.la # Drop rogue libtool files.
   rm -rf  "$pkgdir"/usr/lib/perl5/core_perl
 }
