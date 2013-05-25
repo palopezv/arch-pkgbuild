@@ -22,7 +22,7 @@ source=('irssi-svn::svn+http://svn.irssi.org/repos/irssi/trunk')
 md5sums=('SKIP')
 
 pkgver() {
-  cd irssi-svn
+  cd "$pkgname"
   svnversion | tr -d [A-z]
 }
 
@@ -39,5 +39,6 @@ build() {
 package() {
   cd "$srcdir"/"$pkgname"
   make DESTDIR="$pkgdir" install
-  rm -rf  "$pkgdir"/usr/lib/perl5/core_perl/
+  rm -f "$pkgdir"usr/lib/irssi/modules/*.la # Drop rogue libtool files.
+  rm -rf  "$pkgdir"/usr/lib/perl5/core_perl
 }
