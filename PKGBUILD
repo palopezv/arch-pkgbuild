@@ -13,7 +13,7 @@ pkgver=5.0.0.0
 pkgrel=5
 ##_ver=${pkgver//./} # Just for reference, this is how it should be done.
 _ver=5000 # So people can download the file from the AUR page directly.
-_extra=
+_extra= # Extra version used in debotched releases, usually takes months... Or years.
 pkgdesc="The bittorrent kitchen-sink servlet."
 provides=("azureus")
 arch=('i686' 'x86_64')
@@ -30,69 +30,74 @@ optdepends=(
 install=vuze.install
 options=(!strip)
 
-## Bunch of hacks to work around shoddy 5.0.0.0 release packaging and idiotic
-## patching before 24 hours of the release. Please!
+## Bunch'o hacks to work around another shoddy release and idiotic
+## patching spree after 24 hours of the release. 
+## Do they know the meaning of "release engineering"?
 noextract=("Vuze_"$_ver""$_extra".jar" "azrating_1.4.2.jar" "azupnpav_0.4.7.zip")
 
 source=(
-  "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra"_linux.tar.bz2"
-  "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra".jar"
-  "http://plugins.vuze.com/plugins/azrating_1.4.2.jar"
-  "http://plugins.vuze.com/plugins/azupnpav_0.4.7.zip")
+	 "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra"_linux.tar.bz2"
+	 "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra".jar"
+	 "http://plugins.vuze.com/plugins/azrating_1.4.2.jar"
+	 "http://plugins.vuze.com/plugins/azupnpav_0.4.7.zip")
 
 package() {
-  cd "$srcdir/$pkgname"
+	cd "$srcdir/$pkgname"
 
-  #install systemwide plugins
-  mkdir -p "$pkgdir"/usr/share/vuze
-  cp -a "$srcdir/$pkgname"/plugins "$pkgdir"/usr/share/vuze/
-
-  # Add magnet mimetype to desktop file.
-  # This works as shoot-from-the-hip hack but I feel so dirty,
-  # I'll go get a shower now.
-  #
-  # And I missed the magic %U. Greets to j_r0dd for the prodding.
-  #
-  sed -i.bak -e 's#\(x-bittorrent\)#\1;x-scheme-handler/magnet;#' \
-    -e 's#^\(Exec=vuze \)%f#\1%U#' vuze.desktop
+        # Create target directories
+        install -dm755 "$pkgdir/usr/bin"
+        install -dm755 "$pkgdir/usr/share/vuze"
+        install -dm755 "$pkgdir/usr/share/applications"
+        install -dm755 "$pkgdir/usr/share/gconf/schemas"
+        install -dm755 "$pkgdir/usr/share/pixmaps"
+        install -dm755 "$pkgdir/usr/share/licenses/$pkgname"
 
 
-  #install desktop entries
-  install -Dm644 vuze.desktop  "$pkgdir"/usr/share/applications/vuze.desktop
-  install -Dm644 vuze.png "$pkgdir"/usr/share/pixmaps/vuze.png
-  install -Dm644 vuze.torrent.png "$pkgdir"/usr/share/pixmaps/vuze.torrent.png
-  install -Dm644 vuze.schemas "$pkgdir"/usr/share/gconf/schemas/vuze.schemas
+	#install desktop entries
+	install -m644 vuze.desktop -t "$pkgdir/usr/share/applications"
 
-  # install SWT
-  if [[ $CARCH == i686 ]] ; then
-    install -Dm644 swt/swt32.jar "$pkgdir"/usr/share/vuze/swt32.jar
-  elif [[ $CARCH == x86_64 ]] ; then
-    install -Dm644 swt/swt64.jar "$pkgdir"/usr/share/vuze/swt64.jar
-  fi
+	# Add magnet mimetype to desktop file.
+	# And I missed the magic %U. Greets to j_r0dd for the prodding.
+	sed -i -e 's#\(x-bittorrent\)#\1;x-scheme-handler/magnet;#' \
+		-e 's#^\(Exec=vuze \)%f#\1%U#' "$pkgdir/usr/share/applications/vuze.desktop"
 
-  # install vuze
-  install -Dm755 vuze "${pkgdir}"/usr/bin/vuze
-  sed -i 's|#PROGRAM_DIR="/home/username/apps/azureus"|PROGRAM_DIR="/usr/share/vuze"|' "$pkgdir"/usr/bin/vuze
-  #install -Dm644 Azureus2.jar "$pkgdir"/usr/share/vuze/Azureus2.jar
+	install -pm644 vuze.png -t "$pkgdir/usr/share/pixmaps"
+	install -pm644 vuze.torrent.png -t "$pkgdir/usr/share/pixmaps"
+	install -pm644 vuze.schemas -t "$pkgdir/usr/share/gconf/schemas"
 
-  # install the license
-  install -Dm644 TOS.txt "$pkgdir"/usr/share/licenses/vuze/TOS.txt
+	# install SWT
+	if [[ $CARCH == i686 ]] ; then
+		install -pm644 swt/swt32.jar -t "$pkgdir/usr/share/vuze"
+	elif [[ $CARCH == x86_64 ]] ; then
+		install -pm644 swt/swt64.jar -t "$pkgdir/usr/share/vuze"
+	fi
 
-  # Java and Ruby people are IDIOTS when it comes to creating proper releases.
-  install -Dm644 "$srcdir"/Vuze_"$_ver""$_extra".jar "$pkgdir"/usr/share/vuze/Azureus2.jar
+	# install vuze
+	install -m755 vuze -t "$pkgdir/usr/bin"
+	# Fix internal directory name
+	sed -i 's|#PROGRAM_DIR="/home/username/apps/azureus"|PROGRAM_DIR="/usr/share/vuze"|' "$pkgdir/usr/bin/vuze"
+	# Sigh... 
+	#install -pm644 Azureus2.jar -t "$pkgdir/usr/share/vuze"
 
-  # Truly blabbering, stuttering MORONS.
-  install -Dm644 "$srcdir"/azrating_1.4.2.jar "$pkgdir"/usr/share/vuze/plugins/azrating/
+	#install systemwide plugins
+	cp -a "$srcdir/$pkgname/plugins" "$pkgdir/usr/share/vuze"
 
-  # Did I mention, again, I have lost all respect for these people?
-  # Now, kids... Don't try this at home or much grief will ensue.
-  unzip -o -d "$pkgdir"/usr/share/vuze/plugins/azupnpav/ "$srcdir"/azupnpav_0.4.7.zip
+	# install the license
+	install -pm644 TOS.txt -t "$pkgdir/usr/share/licenses/$pkgname"
+
+	# We really, really shouldn't need anythin below this line.
+
+	# And we've got another botched release.
+	install -Dm644 "$srcdir/Vuze_"$_ver""$_extra".jar" "$pkgdir/usr/share/vuze/Azureus2.jar"
+	install -dm755 "$pkgdir/usr/share/vuze/plugins/azrating"
+	install -pm644 "$srcdir/azrating_1.4.2.jar" -t "$pkgdir/usr/share/vuze/plugins/azrating"
+	unzip -qq -o -d "$pkgdir/usr/share/vuze/plugins/azupnpav" "$srcdir/azupnpav_0.4.7.zip"
  
-  # Drop garbage
-  rm -f "$pkgdir"/usr/share/vuze/plugins/azplugins/azplugins_2.1.6.jar
-  rm -f "$pkgdir"/usr/share/vuze/plugins/azrating/azrating_1.3.1.jar
-  rm -f "$pkgdir"/usr/share/vuze/plugins/azupnpav/azupnpav_0.4.4.jar
-  rm -f "$pkgdir"/usr/share/vuze/plugins/azupnpav/azupnpav_0.4.6.jar
+	# I just want to cry.
+	rm -f "$pkgdir/usr/share/vuze/plugins/azplugins/azplugins_2.1.6.jar"
+	rm -f "$pkgdir/usr/share/vuze/plugins/azrating/azrating_1.3.1.jar"
+	rm -f "$pkgdir/usr/share/vuze/plugins/azupnpav/azupnpav_0.4.4.jar"
+	rm -f "$pkgdir/usr/share/vuze/plugins/azupnpav/azupnpav_0.4.6.jar"
 }
 
 sha256sums=('720f51155dbf95674e833d964fe4d2d3356588fe46d8a1df9735d8f29fe5d906'
