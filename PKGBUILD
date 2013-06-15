@@ -1,6 +1,6 @@
-# Original maintainer: td123 <gostrc at gmail.com>
-# Previous maintainer: phoenixlzx < phoenixlzx at phoenixsec.org >
-# Maintainer: Vorbote <palopezv at gmail.com>
+# Original maintainer: td123 <gostrc AT gmail DOT com>
+# Previous maintainer: phoenixlzx < phoenixlzx AT phoenixsec DOT org >
+# Maintainer: Vorbote <palopezv AT gmail DOT com>
 
 # This file is provided to under the terms of the BSD 2-clause
 # licence. <http://opensource.org/licenses/BSD-2-Clause>
@@ -85,10 +85,10 @@ package() {
 	# install the license
 	install -pm644 TOS.txt -t "$pkgdir/usr/share/licenses/$pkgname"
 
-	# We really, really shouldn't need anythin below this line.
+	# We really, really shouldn't need anything below this line.
 
 	# And we've got another botched release.
-	install -Dm644 "$srcdir/Vuze_"$_ver""$_extra".jar" "$pkgdir/usr/share/vuze/Azureus2.jar"
+	install -Dpm644 "$srcdir/Vuze_"$_ver""$_extra".jar" "$pkgdir/usr/share/vuze/Azureus2.jar"
 	install -dm755 "$pkgdir/usr/share/vuze/plugins/azrating"
 	install -pm644 "$srcdir/azrating_1.4.2.jar" -t "$pkgdir/usr/share/vuze/plugins/azrating"
 	unzip -qq -o -d "$pkgdir/usr/share/vuze/plugins/azupnpav" "$srcdir/azupnpav_0.4.7.zip"
