@@ -1,4 +1,4 @@
-archlinux-vuze
+vuze-archlinux
 ==============
 
 Files needed to build Vuze/Azureus in Arch Linux.
