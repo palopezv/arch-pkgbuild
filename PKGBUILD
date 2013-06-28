@@ -33,11 +33,11 @@ options=(!strip)
 ## Bunch'o hacks to work around another shoddy release and idiotic
 ## patching spree after 24 hours of the release. 
 ## Do they know the meaning of "release engineering"?
-noextract=("Vuze_"$_ver""$_extra".jar" "azrating_1.4.2.jar" "azupnpav_0.4.7.zip")
+noextract=("Vuze_${_ver}${_extra}.jar" "azrating_1.4.2.jar" "azupnpav_0.4.7.zip")
 
 source=(
-	 "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra"_linux.tar.bz2"
-	 "http://downloads.sourceforge.net/azureus/vuze/Vuze_"$_ver"/Vuze_"$_ver""$_extra".jar"
+	 "http://downloads.sourceforge.net/azureus/vuze/Vuze_${_ver}/Vuze_${_ver}${_extra}_linux.tar.bz2"
+	 "http://downloads.sourceforge.net/azureus/vuze/Vuze_${_ver}/Vuze_${_ver}${_extra}.jar"
 	 "http://plugins.vuze.com/plugins/azrating_1.4.2.jar"
 	 "http://plugins.vuze.com/plugins/azupnpav_0.4.7.zip")
 
@@ -87,8 +87,14 @@ package() {
 
 	# We really, really shouldn't need anything below this line.
 
-	# And we've got another botched release.
-	install -Dpm644 "$srcdir/Vuze_"$_ver""$_extra".jar" "$pkgdir/usr/share/vuze/Azureus2.jar"
+	# Include the main jar for the *previous release*? Come on, you guys! Too little Jolt Cola?
+	install -Dpm644 "$srcdir/Vuze_${_ver}${_extra}.jar" "$pkgdir/usr/share/vuze/Azureus2.jar"
+	#
+	# When the updater fails to install in system directories, the program goes in an endless
+	# loop. And won't push to the user directories either. They released these loose updates
+	# less than # 24 hours after main release and they won't release a patched linux package.
+	# Depressing.
+	#
 	install -dm755 "$pkgdir/usr/share/vuze/plugins/azrating"
 	install -pm644 "$srcdir/azrating_1.4.2.jar" -t "$pkgdir/usr/share/vuze/plugins/azrating"
 	unzip -qq -o -d "$pkgdir/usr/share/vuze/plugins/azupnpav" "$srcdir/azupnpav_0.4.7.zip"
