@@ -1,12 +1,12 @@
 # Original maintainer: td123 <gostrc AT gmail DOT com>
 # Previous maintainer: phoenixlzx < phoenixlzx AT phoenixsec DOT org >
-# Maintainer: Vorbote <palopezv AT gmail DOT com>
+# Maintainer:  P. A. López-Valencia <palopezv AT gmail DOT com>
 
 # This file is provided to under the terms of the BSD 2-clause
 # licence. <http://opensource.org/licenses/BSD-2-Clause>
 
 # Patches welcome. Send pull requests to
-# https://github.com/vorbote/archlinux-vuze
+# https://github.com/palopezv/archlinux-vuze
 
 pkgname=vuze
 pkgver=5.0.0.0
@@ -21,17 +21,19 @@ url="http://azureus.sf.net/"
 license=('GPL')
 depends=('java-runtime' 'desktop-file-utils')
 makedepends=('unzip')
+install="$pkgname.install"
+options=(!strip)
+PKGEXT=".pkg.tar"
+
 optdepends=(
 	'xulrunner192: for vuze channels GUI. Long compile ahead.'
 	'webkitgtk2: for vuze channels GUI instead of xulrunner192. Crash prone.'
 	'vuze-plugin-mldht: Talk DHT to uTorrent, Transmission, etc.'
 	'vuze-plugin-i2p: Use the i2p darknet.'
 	)
-install=vuze.install
-options=(!strip)
 
 ## Bunch'o hacks to work around another shoddy release and idiotic
-## patching spree after 24 hours of the release. 
+## patching spree 24 hours of the release. 
 ## Do they know the meaning of "release engineering"?
 noextract=("Vuze_${_ver}${_extra}.jar" "azrating_1.4.2.jar" "azupnpav_0.4.7.zip")
 
