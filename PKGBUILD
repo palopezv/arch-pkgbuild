@@ -6,7 +6,7 @@
 # license. <http://opensource.org/licenses/BSD-2-Clause>
 
 # Patches welcome. Send pull requests to
-# https://github.com/palopezv/archlinux-vuze
+# https://github.com/palopezv/vuze-bin-archlinux
 
 pkgname=vuze
 pkgver=5.0.0.0
