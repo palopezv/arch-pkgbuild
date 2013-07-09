@@ -4,7 +4,7 @@
 # <http://opensource.org/licenses/BSD-2-Clause>
 #
 # Patches welcome. Send pull requests to
-# https://github.com/vorbote/vuze-plugin-i2p
+# https://github.com/palopezv/vuze-plugin-i2p
 
 pkgname=vuze-plugin-i2p
 pkgver=0.3.2
