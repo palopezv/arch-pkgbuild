@@ -50,7 +50,7 @@ package() {
         install -d "$pkgdir/usr/share/applications"
         install -d "$pkgdir/usr/share/gconf/schemas"
         install -d "$pkgdir/usr/share/pixmaps"
-        install -d "$pkgdir/usr/share/licenses/$pkgname"
+        install -d "$pkgdir/usr/share/licenses/vuze"
 
 
 	# Install desktop entries
