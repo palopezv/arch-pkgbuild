@@ -16,6 +16,7 @@ license=('GPL2')
 options=(!strip)
 source=("http://azureus.sourceforge.net/plugins/azneti2p_${pkgver}.jar")
 noextract=("azneti2p_${pkgver}.jar")
+PKGEXT=".pkg.tar"
 md5sums=('d7c49dcca24a0a30e1480e908ffc1f23')
 
 build () {
