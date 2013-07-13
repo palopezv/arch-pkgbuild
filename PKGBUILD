@@ -8,7 +8,7 @@
 
 pkgname=vuze-plugin-i2p
 pkgver=0.3.2
-pkgrel=3
+pkgrel=4
 pkgdesc="Vuze plugin for the I2P darknet network. Follow the White Rabbit into its hole."
 arch=('any')
 url=http://azureus.sourceforge.net/plugin_details.php?plugin=azneti2p
@@ -19,7 +19,8 @@ noextract=("azneti2p_${pkgver}.jar")
 PKGEXT=".pkg.tar"
 md5sums=('d7c49dcca24a0a30e1480e908ffc1f23')
 
-build () {
+package () {
 	cd "$srcdir"
-	install -Dm644 azneti2p_${pkgver}.jar "${pkgdir}/usr/share/vuze/plugins/azneti2p/azneti2p_${pkgver}.jar"
+	install -Dm644 azneti2p_${pkgver}.jar "${pkgdir}/usr/share/vuze/plugins/azneti2p/azneti2p.jar"
 }
+
