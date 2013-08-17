@@ -1,0 +1,31 @@
+# Maintainer: Greg Smith <gasmith@gmail.com>
+pkgname=libapp-git
+pkgver=20110613
+pkgrel=1
+pkgdesc="Utilities for repetitive tasks in app development"
+arch=('i686' 'x86_64')
+url="https://github.com/drotiro/libapp"
+license=('LGPL3')
+makedepends=('git')
+provides=('libapp')
+source=("libapp-git::git://github.com/drotiro/libapp.git")
+md5sums=('SKIP')
+
+pkgver() {
+  cd $pkgname
+  #echo $(git rev-list --count HEAD).$(git rev-parse --short HEAD)
+  echo $(git log -1 --pretty=%ai --date=iso HEAD | \
+    awk '{print $1}' | sed s/\-//g )
+}
+
+build() {
+  cd "$srcdir/$pkgname"
+
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+
+  make PREFIX="$pkgdir/usr/" install
+} 
