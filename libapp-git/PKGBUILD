@@ -27,5 +27,10 @@ build() {
 package() {
   cd "$srcdir/$pkgname"
 
+<<<<<<< HEAD
+=======
+  #mkdir -p "$pkgdir/usr/include"
+  #mkdir -p "$pkgdir/usr/lib"
+>>>>>>> 18ce57de46629e7208e9f9b6419321eec3a190fb
   make PREFIX="$pkgdir/usr/" install
 } 
