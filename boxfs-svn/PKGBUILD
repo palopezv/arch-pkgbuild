@@ -1,0 +1,34 @@
+# Maintainer: Estanislao Mercadal <ktuludawn at linuxmail dot org>
+pkgname=boxfs-svn
+pkgver=90
+pkgrel=1
+pkgdesc="A FUSE filesystem to access files on your box.net account"
+arch=('i686' 'x86_64')
+url="http://code.google.com/p/boxfs/"
+license=('GPL')
+depends=('fuse' 'libapp-git' 'libzip' 'libxml2' 'curl')
+makedepends=('subversion')
+provides=('boxfs')
+conflicts=('boxfs')
+source=("$pkgname::svn+http://boxfs.googlecode.com/svn/trunk/")
+md5sums=('SKIP')
+
+version () {
+  cd $pkgname
+  svnversion | tr -d [A-z]
+}
+
+build() {
+  cd "$srcdir/$pkgname"
+
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+  mkdir -p "$pkgdir/usr/bin"
+  make PREFIX="$pkgdir/usr" install
+  rm -rf $(find "$pkgdir" -type d -name ".svn")
+}
+
+# vim:set ts=2 sw=2 et:
