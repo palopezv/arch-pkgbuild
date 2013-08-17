@@ -24,7 +24,7 @@ build() {
 	# patch to make uemacs look for a helpfile in the correct location
 	patch -p1 < ../helplocation.patch || return 1
 
-	sed -i "s@BINDIR=/usr/bin@BINDIR=${pkgdir}/usr/bin@;s@LIBDIR=/usr/lib@LIBDIR=${pkgdir}/usr/share/doc/uemacs@" Makefile  >>  Makefile
+	sed -i "s@BINDIR=/usr/bin@BINDIR="$pkgdir"/usr/bin@;s@LIBDIR=/usr/lib@LIBDIR="$pkgdir"/usr/share/doc/uemacs@" Makefile  >>  Makefile
 	make || return 1
 
 }
@@ -32,7 +32,7 @@ build() {
 package () {
     
 	cd "$pkgdir/$pkgname"
-	mkdir -p ${pkgdir}/usr/bin
-	mkdir -p ${pkgdir}/usr/share/doc/uemacs
+	mkdir -p "$pkgdir"/usr/bin
+	mkdir -p "$pkgdir"/usr/share/doc/uemacs
 	make install || return 1
 }
