@@ -1,7 +1,7 @@
 # Maintainer: Yarema aka Knedlyk <yupadmin@gmail.com>
 
 pkgname=texstudio-svn
-pkgver=4088
+pkgver=4158
 pkgrel=1
 pkgdesc="TeXstudio is a fork of the LaTeX IDE TexMaker."
 arch=('i686' 'x86_64')
@@ -9,10 +9,10 @@ url="http://texstudio.sourceforge.net"
 license=('GPL')
 depends=('qt4' 'poppler-qt')
 conflicts=('texmakerx' 'texstudio')
-source=("texstudio-svn::svn://svn.code.sf.net/p/texstudio/code/trunk")
+source=("$pkgname::svn://svn.code.sf.net/p/texstudio/code/trunk")
 md5sums=('SKIP')
 
-version () {
+pkgver () {
   cd $pkgname
   svnversion | tr -d [A-z]
 }
