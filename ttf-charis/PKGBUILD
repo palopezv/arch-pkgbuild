@@ -9,7 +9,7 @@ url="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&item_id=CharisSILf
 license=('custom:OFL')
 depends=('fontconfig' 'xorg-fonts-encodings' 'xorg-font-utils')
 conflicts=('ttf-sil-fonts')
-install="$pkgver.install"
+install="$pkgname.install"
 source=("CharisSIL-$pkgver.zip::http://scripts.sil.org/cms/scripts/render_download.php?&format=file&media_id=CharisSIL-$pkgver.zip&filename=CharisSIL-$pkgver.zip")
 sha256sums=('92ea75512a0bee4d491ba23fb295fd410707f6e8dedacd1af81e222a3081dd56')
 
