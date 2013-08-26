@@ -14,8 +14,7 @@ md5sums=('SKIP')
 pkgver() {
   cd $pkgname
   #echo $(git rev-list --count HEAD).$(git rev-parse --short HEAD)
-  echo $(git log -1 --pretty=%ai --date=iso HEAD | \
-    awk '{print $1}' | sed s/\-//g )
+  "$(git log -1 --pretty=%ai --date=iso HEAD | awk '{print $1}' | sed s/\-//g )"
 }
 
 build() {
@@ -27,10 +26,7 @@ build() {
 package() {
   cd "$srcdir/$pkgname"
 
-<<<<<<< HEAD
-=======
   #mkdir -p "$pkgdir/usr/include"
   #mkdir -p "$pkgdir/usr/lib"
->>>>>>> 18ce57de46629e7208e9f9b6419321eec3a190fb
   make PREFIX="$pkgdir/usr/" install
 } 
