@@ -37,6 +37,8 @@ noextract=("Vuze_${_ver}${_extra}.jar")
 source=(
 	 "http://downloads.sourceforge.net/azureus/vuze/Vuze_${_ver}/Vuze_${_ver}${_extra}_linux.tar.bz2")
 
+sha256sums=('f9544fbd8d6fe00af71699accca8a553735567aad0d42376ac18345fbfb595d9')
+
 package() {
 	cd "$srcdir/$pkgname"
 
@@ -86,7 +88,7 @@ package() {
 	sed -i 's|#PROGRAM_DIR="/home/username/apps/azureus"|PROGRAM_DIR="/usr/share/vuze"|' "$pkgdir/usr/bin/vuze"
 
 
-	# This should be all but... Sigh... 
+	# Install main jar.
 
 	install -pm644 Azureus2.jar -t "$pkgdir/usr/share/vuze"
 
@@ -102,4 +104,3 @@ package() {
 	
 }
 
-sha256sums=('f9544fbd8d6fe00af71699accca8a553735567aad0d42376ac18345fbfb595d9')
