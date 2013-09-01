@@ -13,6 +13,7 @@ pkgdesc="Mainline DHT for Vuze. Talk DHT to µTorrent, Transmission, etc."
 arch=('any')
 url=http://azureus.sourceforge.net/plugin_details.php?plugin=mlDHT
 license=('GPL2')
+depends=('vuze')
 options=(!strip)
 source=("http://azureus.sourceforge.net/plugins/mlDHT_${pkgver}.jar")
 noextract=("mlDHT_${pkgver}.jar")
