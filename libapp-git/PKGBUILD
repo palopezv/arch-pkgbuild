@@ -13,8 +13,9 @@ md5sums=('SKIP')
 
 pkgver() {
   cd $pkgname
-  #echo $(git rev-list --count HEAD).$(git rev-parse --short HEAD)
-  "$(git log -1 --pretty=%ai --date=iso HEAD | awk '{print $1}' | sed s/\-//g )"
+  #git rev-list --count HEAD).$(git rev-parse --short HEAD
+  #git log -1 --pretty=%ai --date=iso HEAD | awk '{print $1}' | sed s/\-//g
+  git log -1 --format="%cd" --date=short | sed 's/-//g'
 }
 
 build() {
