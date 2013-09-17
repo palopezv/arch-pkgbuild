@@ -15,11 +15,13 @@ sha256sums=('db5baabc1b80c42504d64484a83d48388ecbb3b216a7de9c67fea8b19f1c95bd')
 
 build() {
   cd "$srcdir/$_realn-$pkgver"
-  ./configure --prefix=/usr
+  mkdir -p "$srcdir/$_realn-$pkgver/build"
+  cd "$srcdir/$_realn-$pkgver/build"
+  ../configure --prefix=/usr
   make 
 }
 
 package() {
-  cd "$srcdir/$_realn-$pkgver"
+  cd "$srcdir/$_realn-$pkgver/build"
   make DESTDIR="$pkgdir" install
 }
