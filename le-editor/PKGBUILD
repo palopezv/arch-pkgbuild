@@ -14,7 +14,6 @@ source=("http://lav.yar.ru/download/$_realn/$_realn-$pkgver.tar.gz")
 sha256sums=('db5baabc1b80c42504d64484a83d48388ecbb3b216a7de9c67fea8b19f1c95bd')
 
 build() {
-  cd "$srcdir/$_realn-$pkgver"
   mkdir -p "$srcdir/$_realn-$pkgver/build"
   cd "$srcdir/$_realn-$pkgver/build"
   ../configure --prefix=/usr
