@@ -37,14 +37,16 @@ source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}-0.6.0-be
 md5sums=('7b9c730c995c44315f6ca7d46df89894')
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  #cd "${srcdir}/${pkgname}-${pkgver}"
+  cd "${srcdir}/${pkgname}-0.6.0-beta1"
 
   ./configure --prefix=/usr --disable-ffmpeg --enable-gtk3
   make
 }
 
 package () {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  #cd "${srcdir}/${pkgname}-${pkgver}"
+  cd "${srcdir}/${pkgname}-0.6.0-beta1"
 
   make prefix="${pkgdir}/usr" install
 }
