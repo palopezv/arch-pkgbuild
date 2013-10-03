@@ -31,8 +31,10 @@ optdepends=('libsamplerate: for Resampler plugin'
             'libzip: for vfs_zip plugin')
 options=('!libtool')
 install='deadbeef.install'
-source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
-md5sums=('26b6036ca7e59c88267d3de4f42c4d01')
+#source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
+source=("http://downloads.sourceforge.net/project/${pkgname}/${pkgname}-0.6.0-beta1.tar.bz2")
+#md5sums=('26b6036ca7e59c88267d3de4f42c4d01')
+md5sums=('7b9c730c995c44315f6ca7d46df89894')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
