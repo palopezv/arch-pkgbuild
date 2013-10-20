@@ -1,0 +1,62 @@
+# Maintainer : P. A. López-Valencia <palopezv AT gmail DOT com>
+
+pkgname=gxine-hg
+pkgver=0.5.907+2276.a014a1dc37ad
+_prevver="0.5.907" # hg tip identifies as 0.5.908
+pkgrel=1
+pkgdesc="GTK+ frontend for xine. Development version."
+arch=('i686' 'x86_64')
+url="http://www.xine-project.org/"
+license=('GPL')
+depends=('xine-lib' 'gtk2' 'js185' 'dbus-glib' 
+	 'lirc-utils' 'desktop-file-utils' 'hicolor-icon-theme')
+makedepends=('libxaw' 'autoconf' 'mercurial')
+optdepends=('libxaw: Mozilla browser plugin')
+options=('!libtool')
+install="$pkgname.install"
+source=("$pkgname::hg+http://anonscm.debian.org/hg/xine-lib/gxine/")
+md5sums=('SKIP')
+PKGEXT=".pkg.tar"
+
+pkgver() {
+  cd "$srcdir/$pkgname"
+  #echo $(hg identify -n).$(hg identify -i)
+  # In mercurial, you cannot assure that id -n is equal in two copies
+  # of the same repository!!!!! So let's try this and hope for the best.
+  echo "$_prevver"+$(hg id -n).$(hg id -i)
+}
+
+build() {
+  cd "$srcdir/$pkgname"
+
+  ./autogen.sh
+
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --disable-integration-wizard \
+              --with-browser-plugin \
+              --with-logo-format=image \
+              --with-dbus \
+              --with-gudev \
+              --with-pic \
+              --enable-watchdog \
+	      --disable-rpath \
+	      --disable-ffjs \
+	      --disable-seajs \
+              --disable-deprecated \
+              --disable-own-playlist-parsers \
+              VENDOR_PKG_VERSION="$pkgver-$pkgrel; Arch Linux"
+
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+
+  make DESTDIR="$pkgdir/" install
+
+  # mozilla plugin
+  install -d "$pkgdir/usr/lib/mozilla/plugins"
+  ln -s /usr/lib/gxine/gxineplugin.so \
+    "$pkgdir/usr/lib/mozilla/plugins"
+}
