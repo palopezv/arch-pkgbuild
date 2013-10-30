@@ -13,14 +13,19 @@ depends=()
 source=(${url}/download/${pkgname}-${pkgver}-src.tar.gz)
 md5sums=('d570b7d1df1f1ac8ce321379d6c41692')
 
+prepare() {
+  cd "$srcdir/$pkgname-$pkgver-src"
+  sed -i 's/games/bin/' Makefile
+  sed -i '/i686/d' src/Makefile.config
+  sed -i 's/\-O3/\-O3\ \-march=native/' src/Makefile.config
+}
+
 build() {
   cd "$srcdir/$pkgname-$pkgver-src"
-  sed -i '/i686/d' src/Makefile.config
   make
 }
 
 package() {
   cd "$srcdir/$pkgname-$pkgver-src"
   make DESTDIR="$pkgdir" install
-  install -d "$pkgdir/usr"
 }
