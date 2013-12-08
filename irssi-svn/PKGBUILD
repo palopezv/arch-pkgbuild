@@ -1,0 +1,44 @@
+# Maintainer: J. W. Birdsong  <jwbirdsong AT gmail DOT com>
+# Contributor: Lukasz Fidosz <virhilo@gmail.com>
+# Contributor: Stavros Giannouris <stavrosg2002@freemail.gr>
+# Contributor: SaintShakaJin <saintshakajin.3@laposte.net>
+# Contributor: P. A. López-Valencia <palopezv AT gmail DOT com>
+
+
+pkgname=irssi-svn
+pkgver=5217  
+pkgrel=1
+pkgdesc="Modular text mode IRC client with Perl scripting"
+url="http://irssi.org/"
+arch=('i686' 'x86_64')
+license="GPL"
+depends=('glib2' 'openssl')
+makedepends=('subversion' 'lynx' 'pkgconfig')
+optdepends=('perl-libwww: used for scriptassist')
+backup=(etc/irssi.conf)
+conflicts=('irssi' 'irssi-cvs', 'irssi-git')
+provides=('irssi')
+source=("$pkgname::svn+http://svn.irssi.org/repos/irssi/trunk")
+md5sums=('SKIP')
+
+pkgver() {
+  cd "$pkgname"
+  svnversion | tr -d [A-z]
+}
+
+build() {
+  cd "$srcdir"/"$pkgname"
+  ./autogen.sh --prefix=/usr \
+    --enable-ipv6 \
+    --with-proxy \
+    --sysconfdir=/etc \
+    --with-perl-lib=vendor
+  make
+}
+
+package() {
+  cd "$srcdir"/"$pkgname"
+  make DESTDIR="$pkgdir" install
+  rm -f "$pkgdir"/usr/lib/irssi/modules/*.la # Drop rogue libtool files.
+  rm -rf  "$pkgdir"/usr/lib/perl5/core_perl
+}
