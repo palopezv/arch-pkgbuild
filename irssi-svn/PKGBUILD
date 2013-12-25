@@ -6,7 +6,7 @@
 
 
 pkgname=irssi-svn
-pkgver=5217  
+pkgver= 
 pkgrel=1
 pkgdesc="Modular text mode IRC client with Perl scripting"
 url="http://irssi.org/"
@@ -18,7 +18,7 @@ optdepends=('perl-libwww: used for scriptassist')
 backup=(etc/irssi.conf)
 conflicts=('irssi' 'irssi-cvs', 'irssi-git')
 provides=('irssi')
-source=("$pkgname::svn+http://svn.irssi.org/repos/irssi/trunk")
+source=("$pkgname::svn+http://svn.irssi.org/repos/irssi/trunk/")
 md5sums=('SKIP')
 
 pkgver() {
