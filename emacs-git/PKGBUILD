@@ -9,7 +9,7 @@
 #
 
 pkgname=emacs-git
-pkgver=24.3.50.09d32a2
+pkgver=24.3.50.2d318ae
 pkgrel=1
 pkgdesc="GNU Emacs. Official git trunk."
 arch=('i686' 'x86_64')
@@ -27,8 +27,7 @@ md5sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$pkgname"
-  #printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-  printf "%s.%s" "$(grep AC_INIT configure.ac | sed -e 's/^AC.\+,\ \(.\+\))/\1/')" "$(git rev-parse --short HEAD)"
+  printf "%s.%s" "$(grep AC_INIT configure.ac | sed -e 's/^.\+\ \(.\+\))/\1/')" "$(git rev-parse --short HEAD)"
 }
 
 prepare() {
