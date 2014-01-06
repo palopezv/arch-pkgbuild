@@ -1,4 +1,5 @@
-# Maintainer: Marcin Karpezo <sirmacik at gmail dot com>
+# Maintainer: P. A. López-Valencia <palopezv AT gmail DOT com>
+
 pkgname=uname-git
 pkgver=121.fa00fe8
 pkgrel=1
