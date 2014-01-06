@@ -4,14 +4,13 @@
 
 pkgname=uemacs-git
 pkgver=20130222.fa00fe8
-pkgrel=3
+pkgrel=4
 pkgdesc="Micro-emacs version customized by Linus Torvalds"
 arch=('i686' 'x86_64')
 url="http://git.kernel.org/?p=editors/uemacs/uemacs.git;a=summary"
 license=('custom')
 depends=('ncurses')
 makedepends=('git')
-source=(helplocation.patch)
 source=("$pkgname::git://git.kernel.org/pub/scm/editors/uemacs/uemacs.git")
 sha256sums=('SKIP')
 
@@ -26,8 +25,8 @@ prepare() {
   cd "$srcdir/$pkgname"
 
   # Have uemacs look for its helpfile in a proper location.
-  sed -i -e "s#^[ 	].\+/usr/global.\+##" \
-	 -e "s#^\"/usr/local/\".\+#\"/usr/share/"$pkgname"\"};#" epath.h
+  sed -i -e "s#\"/usr/global/lib/\"#\"/usr/share/"$pkgname"/\"#" \
+       epath.h
 
   # Fix Makefile
   sed -i -e "s#^\(CFLAGS\)=-O2\(.\+\)#\1+=\2#" \
