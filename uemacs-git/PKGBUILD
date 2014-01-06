@@ -17,7 +17,7 @@ sha256sums=('SKIP')
 pkgver() {
   cd "$pkgname"
   printf "%s.%s" \
-    $(git log -n1 --format="%ci" | cut -f1 -d" " | sed 's/\-//g') \
+    $(git log -1 --format="%cd" --date=short | sed 's/\-//g') \
     $(git rev-parse --short HEAD)
 }
 
