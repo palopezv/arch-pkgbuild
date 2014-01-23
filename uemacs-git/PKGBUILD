@@ -4,7 +4,7 @@
 
 pkgname=uemacs-git
 pkgver=20130222.fa00fe8
-pkgrel=4
+pkgrel=5
 pkgdesc="Micro-emacs version customized by Linus Torvalds"
 arch=('i686' 'x86_64')
 url="http://git.kernel.org/?p=editors/uemacs/uemacs.git;a=summary"
