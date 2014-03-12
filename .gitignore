@@ -7,5 +7,6 @@ src/
 *.tgz
 *.tbz
 *.txz
+*.tar
 *.jar
 *.zip
