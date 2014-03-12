@@ -1,0 +1,69 @@
+# Maintainer: P. A. López-Valencia <palopezv AT gmail DOT com>
+# Based on work by
+#   Giovanni Scafora <giovanni@archlinux.org>
+#   Henrik Ronellenfitsch <searinox@web.de>
+#   Alessio Sergi <sergi.alessio {at} gmail.com>
+#   Dario 'Dax' Vilardi <dax [at] deelab [dot] org>
+#   Anatol Pomozov <anatol.pomozov@gmail.com>
+
+pkgname=amule-svn
+pkgver=10834
+pkgrel=1
+pkgdesc="An eMule-like client for ed2k p2p network"
+arch=('i686' 'x86_64')
+url="http://www.amule.org"
+license=('GPL')
+#depends=('wxgtk' 'gd' 'geoip' 'libupnp' 'crypto++' 'libsm')
+depends=('wxgtk2.8' 'gd' 'geoip' 'libupnp' 'crypto++' 'libsm' 'boost')
+conflicts=('amule')
+install="$pkgname".install
+source=('amule-svn::svn+http://amule.googlecode.com/svn/trunk/'
+        'amuled.systemd'
+        'amuleweb.systemd')
+md5sums=('SKIP'
+         '59772c41860e238f1c822feb8ca8d47f'
+         '05975c5d94bfc41fddb894d98b1115d5')
+pkgver() {
+  cd "$srcdir/$pkgname"
+  svnversion
+}
+prepare() {
+  cd "$srcdir/$pkgname"
+
+  ./autogen.sh
+  touch src/IPFilterScanner.cpp
+  touch src/Scanner.cpp
+}
+build() {
+  cd "$srcdir/$pkgname"
+
+  ./configure --prefix=/usr \
+              --mandir=/usr/share/man \
+              --disable-cas \
+              --disable-wxcas \
+              --disable-amule-daemon \
+              --disable-amulecmd \
+              --disable-amule-gui \
+              --disable-alc \
+              --disable-alcc \
+              --disable-webserver \
+              --disable-debug \
+              --enable-optimize \
+              --enable-ccache \
+              --enable-geoip \
+              --enable-upnp \
+              --enable-mmap \
+              --with-boost \
+              --with-wxversion=2.8
+
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+
+  make DESTDIR="$pkgdir" install
+
+  #install -D -m644 "$srcdir/amuled.systemd" "$pkgdir/usr/lib/systemd/system/amuled.service"
+  #install -D -m644 "$srcdir/amuleweb.systemd" "$pkgdir/usr/lib/systemd/system/amuleweb.service"
+}
