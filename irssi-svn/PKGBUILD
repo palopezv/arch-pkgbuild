@@ -6,7 +6,7 @@
 
 
 pkgname=irssi-svn
-pkgver= 
+pkgver=5231 
 pkgrel=1
 pkgdesc="Modular text mode IRC client with Perl scripting"
 url="http://irssi.org/"
