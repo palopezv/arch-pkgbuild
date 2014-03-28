@@ -5,14 +5,16 @@
 # or use: $ curl -s https://dl.google.com/linux/chrome/rpm/stable/x86_64/repodata/other.xml.gz | gzip -df | awk -F\" '/pkgid/{ sub(".*-","",$4); print $4": "$10 }'
 
 pkgname=google-chrome-unstable
-pkgver=35.0.1897.2
+pkgver=35.0.1912.2
 pkgrel=1
 pkgdesc="An attempt at creating a safer, faster, and more stable browser (Dev Channel)"
 arch=('i686' 'x86_64')
 url="https://www.google.com/chrome"
 license=('custom:chrome')
-depends=('alsa-lib' 'desktop-file-utils' 'flac' 'gconf'  'gtk2' 'harfbuzz' 'harfbuzz-icu' 'hicolor-icon-theme' 'icu'
-         'libgcrypt15' 'libpng' 'libxss' 'libxtst' 'nss' 'opus' 'snappy' 'speech-dispatcher' 'ttf-font' 'xdg-utils')
+depends=('alsa-lib' 'desktop-file-utils' 'flac' 'gconf'  'gtk2' 
+	 'harfbuzz' 'harfbuzz-icu' 'hicolor-icon-theme' 'icu'
+         'libgcrypt15' 'libpng' 'libxss' 'libxtst' 'nss' 'opus' 
+	 'snappy' 'speech-dispatcher' 'ttf-font' 'xdg-utils')
 optdepends=('kdebase-kdialog: needed for file dialogs in KDE'
             'ttf-google-fonts-git')
 provides=("google-chrome-unstable=${pkgver}")
