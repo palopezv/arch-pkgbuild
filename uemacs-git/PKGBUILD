@@ -3,8 +3,8 @@
 # Contributor: Gunnar Lundstrom <chosig AT spacewaster DOT net>
 
 pkgname=uemacs-git
-pkgver=20130222.fa00fe8
-pkgrel=5
+pkgver=20130222.r121
+pkgrel=1
 pkgdesc="Micro-emacs version customized by Linus Torvalds"
 arch=('i686' 'x86_64')
 url="http://git.kernel.org/?p=editors/uemacs/uemacs.git;a=summary"
@@ -16,9 +16,10 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$pkgname"
-  printf "%s.%s" \
-    $(git log -1 --format="%cd" --date=short | sed 's/\-//g') \
-    $(git rev-parse --short HEAD)
+  printf "%s.r%s" \
+    "$(git log -1 --format="%cd" --date=short | sed 's/\-//g')" \
+    "$(git rev-list --count HEAD)"
+    #"$(git rev-parse --short HEAD)"
 }
 
 prepare() {
