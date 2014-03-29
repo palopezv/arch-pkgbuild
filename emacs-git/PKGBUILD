@@ -1,4 +1,4 @@
-# Maintainer: P. A. López-Valencia <palopezv at gmail dot com>
+# See AUR interface for current maintainer.
 
 #
 # See <https://lists.gnu.org/archive/html/emacs-devel/2014-01/msg00005.html> 
@@ -15,7 +15,7 @@
 #
 
 pkgname=emacs-git
-pkgver=24.4.50.r130802
+pkgver=24.4.50.r130811
 pkgrel=1
 pkgdesc="GNU Emacs. Official git trunk."
 arch=('i686' 'x86_64')
@@ -34,7 +34,7 @@ md5sums=('SKIP')
 pkgver() {
   cd "$srcdir/$pkgname"
   printf "%s.r%s" \
-    "$(grep AC_INIT configure.ac | sed -e 's/^.\+\ \(.\+\))/\1/')" \
+    "$(grep AC_INIT configure.ac | sed -e 's/^.\+\ \([0-9]\+\.[0-9]\+\.[0-9]\+\).\+$/\1/')" \
     "$(git rev-list --count HEAD)"
 }
 
