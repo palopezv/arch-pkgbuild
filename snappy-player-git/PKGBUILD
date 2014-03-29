@@ -1,8 +1,7 @@
-# Maintainer: P. A. López-Valencia <palopezv AT gmail DOT com>
-# Based on work by Nuno Araujo <nuno.araujo@russo79.com>
+# See AUR interface to contact current maintaner.
 
 pkgname=snappy-player-git
-pkgver=0.3.7.r22.g4fc7f4b
+pkgver=1.0+r422
 pkgrel=1
 pkgdesc="Clutter-based media player with a minimalistic interface"
 arch=('x86_64')
@@ -17,8 +16,10 @@ conflicts=('snappy-player')
 md5sums=('SKIP')
 
 pkgver() {
-  cd "$srcdir/$pkgname"
-    git describe --long | sed -r 's/([^-]*-g)/r\1/;s/-/./g'
+  cd "$pkgname"
+    printf "%s+r%s" \
+    $(git describe --first-parent) \
+    $(git rev-list --count HEAD)
     }
 
 prepare() {

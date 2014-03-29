@@ -1,6 +1,6 @@
 # Contributor: Benjamin Bukowski <benjamin.bukowski@googlemail.com>
 pkgname=mplayer-svn
-pkgver=36481
+pkgver=36831
 pkgrel=1
 pkgdesc='A movie player for Linux'
 arch=('i686' 'x86_64')

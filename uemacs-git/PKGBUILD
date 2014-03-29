@@ -1,6 +1,4 @@
-# Maintainer: P. A. López-Valencia <palopezv AT gmail DOT com>
-# Contributor: Marcin Karpezo <sirmacik AT gmail DOT com>
-# Contributor: Gunnar Lundstrom <chosig AT spacewaster DOT net>
+# See AUR interface to contact current maintainer.
 
 pkgname=uemacs-git
 pkgver=20130222.r121
