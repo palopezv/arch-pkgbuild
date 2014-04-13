@@ -8,6 +8,8 @@ pkgdesc="GTK+ frontend for xine. Development version."
 arch=('i686' 'x86_64')
 url="http://www.xine-project.org/"
 license=('GPL')
+conflicts=('gxine')
+provides=('gxine')
 depends=('xine-lib' 'gtk2' 'js185' 'dbus-glib' 
 	 'lirc-utils' 'desktop-file-utils' 'hicolor-icon-theme')
 makedepends=('libxaw' 'autoconf' 'mercurial')
