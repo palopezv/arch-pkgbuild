@@ -3,7 +3,7 @@
 pkgname=ee-editor
 _pkgname=ee
 pkgver=1.5.2
-pkgrel=2
+pkgrel=3
 _realname='easyedit'
 pkgdesc='EasyEdit, a classic curses text editor. Born in HP-UX, used in FreeBSD.'
 arch=('i686' 'x86_64')
@@ -21,7 +21,7 @@ build() {
   cd "$srcdir/$_realname-$pkgver"
 
   ./create.make
-  make -f make.local curses || return 1
+  make -f make.local curses
 }
 
 package() {
