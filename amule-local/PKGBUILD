@@ -5,18 +5,18 @@
 #   Dario 'Dax' Vilardi <dax [at] deelab [dot] org>
 #   Anatol Pomozov <anatol.pomozov@gmail.com>
 
-pkgname=amule-svn
+pkgname=amule-local
 pkgver=10835
 pkgrel=1
 pkgdesc="An eMule-like client for ed2k p2p network"
 arch=('i686' 'x86_64')
-url="http://www.amule.org"
+url="http://http://amule.googlecode.com/"
 license=('GPL')
-#depends=('wxgtk' 'gd' 'geoip' 'libupnp' 'crypto++' 'libsm')
 depends=('wxgtk2.8' 'gd' 'geoip' 'libupnp' 'crypto++' 'libsm' 'boost')
-conflicts=('amule')
+provides=('amule','amule-svn')
+conflicts=('amule','amule-svn')
 install="$pkgname".install
-source=('amule-svn::svn+http://amule.googlecode.com/svn/trunk/'
+source=('amule-local::svn+http://amule.googlecode.com/svn/trunk/'
         'amuled.systemd'
         'amuleweb.systemd')
 md5sums=('SKIP'
