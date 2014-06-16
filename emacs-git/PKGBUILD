@@ -83,6 +83,3 @@ package() {
 }
 
 # vim:set ts=2 sw=2 et:
-
-md5sums=('SKIP'
-         'ccbe4e77440ff6ea56c8532ebc960446')
