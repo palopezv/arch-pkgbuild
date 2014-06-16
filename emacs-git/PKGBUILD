@@ -13,11 +13,6 @@
 #      but it will take a long time in a low-spec machine or if you
 #      have less than 4GB RAM.
 #
-#      Initially I had enabled LTO (--enable-link-time-optimization)
-#      as this provides faster loading binaries, but it seems that the
-#      latest update to binutils (2.24-6) has broken this. I'll revisit
-#      This at a later time.
-#
 
 pkgname=emacs-git
 pkgver=24.4.50.r131637
@@ -58,6 +53,7 @@ build() {
     --libexecdir=/usr/lib \
     --localstatedir=/var \
     --mandir=/usr/share/man \
+    --enable-link-time-optimization \
     --with-sound=alsa \
     --without-gconf \
     --with-x-toolkit=gtk3 \
@@ -88,3 +84,5 @@ package() {
 
 # vim:set ts=2 sw=2 et:
 
+md5sums=('SKIP'
+         'ccbe4e77440ff6ea56c8532ebc960446')
