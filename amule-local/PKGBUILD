@@ -12,9 +12,10 @@ pkgdesc="An eMule-like client for ed2k p2p network"
 arch=('i686' 'x86_64')
 url="http://http://amule.googlecode.com/"
 license=('GPL')
-depends=('wxgtk2.8' 'gd' 'geoip' 'libupnp' 'crypto++' 'libsm' 'boost')
-provides=('amule','amule-svn')
-conflicts=('amule','amule-svn')
+depends=('wxgtk' 'gd' 'geoip' 'libupnp' 'crypto++' 'libsm')
+replaces=('amule' 'amule-svn')
+provides=('amule' 'amule-svn')
+conflicts=('amule' 'amule-svn')
 install="$pkgname".install
 source=('amule-local::svn+http://amule.googlecode.com/svn/trunk/'
         'amuled.systemd'
@@ -51,9 +52,7 @@ build() {
               --enable-ccache \
               --enable-geoip \
               --enable-upnp \
-              --enable-mmap \
-              --with-boost \
-              --with-wxversion=2.8
+              --enable-mmap 
 
   make
 }
@@ -66,3 +65,5 @@ package() {
   #install -D -m644 "$srcdir/amuled.systemd" "$pkgdir/usr/lib/systemd/system/amuled.service"
   #install -D -m644 "$srcdir/amuleweb.systemd" "$pkgdir/usr/lib/systemd/system/amuleweb.service"
 }
+
+# vim:set ts=2 sw=2 et:
