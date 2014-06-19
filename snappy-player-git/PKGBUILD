@@ -1,7 +1,7 @@
 # See AUR interface to contact current maintaner.
 
 pkgname=snappy-player-git
-pkgver=1.0+r422
+pkgver=1.0+r423
 pkgrel=1
 pkgdesc="Clutter-based media player with a minimalistic interface"
 arch=('x86_64')
@@ -18,7 +18,7 @@ md5sums=('SKIP')
 pkgver() {
   cd "$pkgname"
     printf "%s+r%s" \
-    $(git describe --first-parent) \
+    $(git describe --abbrev=0 --tags) \
     $(git rev-list --count HEAD)
     }
 
