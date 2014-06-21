@@ -1,0 +1,381 @@
+--- src/image.c.old	2014-06-20 12:45:16.932681621 -0500
++++ src/image.c	2014-06-20 13:01:58.337256546 -0500
+@@ -21,11 +21,13 @@
+ #include "sysstdio.h"
+ #include <unistd.h>
+ 
+-/* Include this before including <setjmp.h> to work around bugs with
+-   older libpng; see Bug#17429.  */
+-#if defined HAVE_PNG && !defined HAVE_NS
++#ifdef HAVE_PNG
++#if defined HAVE_LIBPNG_PNG_H
++# include <libpng/png.h>
++#else
+ # include <png.h>
+ #endif
++#endif
+ 
+ #include <setjmp.h>
+ #include <c-ctype.h>
+@@ -158,7 +160,6 @@
+ 
+ /* Functions to access the contents of a bitmap, given an id.  */
+ 
+-#ifdef HAVE_X_WINDOWS
+ static int
+ x_bitmap_height (struct frame *f, ptrdiff_t id)
+ {
+@@ -170,7 +171,6 @@
+ {
+   return FRAME_DISPLAY_INFO (f)->bitmaps[id - 1].width;
+ }
+-#endif
+ 
+ #if defined (HAVE_X_WINDOWS) || defined (HAVE_NTGUI)
+ ptrdiff_t
+@@ -998,11 +998,6 @@
+ 
+       c->images[img->id] = NULL;
+ 
+-      /* Windows NT redefines 'free', but in this file, we need to
+-         avoid the redefinition.  */
+-#ifdef WINDOWSNT
+-#undef free
+-#endif
+       /* Free resources, then free IMG.  */
+       img->type->free (f, img);
+       xfree (img);
+@@ -1236,23 +1231,7 @@
+   return img->background_transparent;
+ }
+ 
+-#if defined (HAVE_PNG) || defined (HAVE_NS) \
+-  || defined (HAVE_IMAGEMAGICK) || defined (HAVE_RSVG)
+-
+-/* Store F's background color into *BGCOLOR.  */
+-static void
+-x_query_frame_background_color (struct frame *f, XColor *bgcolor)
+-{
+-#ifndef HAVE_NS
+-  bgcolor->pixel = FRAME_BACKGROUND_PIXEL (f);
+-  x_query_color (f, bgcolor);
+-#else
+-  ns_query_color (FRAME_BACKGROUND_COLOR (f), bgcolor, 1);
+-#endif
+-}
+-
+-#endif /* HAVE_PNG || HAVE_NS || HAVE_IMAGEMAGICK || HAVE_RSVG */
+-
++
+ /***********************************************************************
+ 		  Helper functions for X image types
+  ***********************************************************************/
+@@ -3974,7 +3953,9 @@
+ {
+   int i;
+ 
+-  for (i = 0; i < ARRAYELTS (xpm_color_key_strings); i++)
++  for (i = 0;
++       i < sizeof xpm_color_key_strings / sizeof xpm_color_key_strings[0];
++       i++)
+     if (strcmp (xpm_color_key_strings[i], s) == 0)
+       return i;
+   return -1;
+@@ -5525,7 +5506,7 @@
+ #endif /* HAVE_PNG || HAVE_NS */
+ 
+ 
+-#if defined HAVE_PNG && !defined HAVE_NS
++#ifdef HAVE_PNG
+ 
+ #ifdef WINDOWSNT
+ /* PNG library details.  */
+@@ -5903,23 +5884,43 @@
+       /* png_color_16 *image_bg; */
+       Lisp_Object specified_bg
+ 	= image_spec_value (img->spec, QCbackground, NULL);
+-      XColor color;
++      int shift = (bit_depth == 16) ? 0 : 8;
+ 
+-      /* If the user specified a color, try to use it; if not, use the
+-	 current frame background, ignoring any default background
+-	 color set by the image.  */
+-      if (STRINGP (specified_bg)
+-	  ? x_defined_color (f, SSDATA (specified_bg), &color, false)
+-	  : (x_query_frame_background_color (f, &color), true))
++      if (STRINGP (specified_bg))
+ 	/* The user specified `:background', use that.  */
+ 	{
+-	  int shift = bit_depth == 16 ? 0 : 8;
+-	  png_color_16 bg = { 0 };
+-	  bg.red = color.red >> shift;
+-	  bg.green = color.green >> shift;
+-	  bg.blue = color.blue >> shift;
++	  XColor color;
++	  if (x_defined_color (f, SSDATA (specified_bg), &color, 0))
++	    {
++	      png_color_16 user_bg;
++
++	      memset (&user_bg, 0, sizeof user_bg);
++	      user_bg.red = color.red >> shift;
++	      user_bg.green = color.green >> shift;
++	      user_bg.blue = color.blue >> shift;
+ 
+-	  fn_png_set_background (png_ptr, &bg,
++	      fn_png_set_background (png_ptr, &user_bg,
++				     PNG_BACKGROUND_GAMMA_SCREEN, 0, 1.0);
++	    }
++	}
++      else
++	{
++	  /* We use the current frame background, ignoring any default
++	     background color set by the image.  */
++#if defined (HAVE_X_WINDOWS) || defined (HAVE_NTGUI)
++	  XColor color;
++	  png_color_16 frame_background;
++
++	  color.pixel = FRAME_BACKGROUND_PIXEL (f);
++	  x_query_color (f, &color);
++
++	  memset (&frame_background, 0, sizeof frame_background);
++	  frame_background.red = color.red >> shift;
++	  frame_background.green = color.green >> shift;
++	  frame_background.blue = color.blue >> shift;
++#endif /* HAVE_X_WINDOWS */
++
++	  fn_png_set_background (png_ptr, &frame_background,
+ 				 PNG_BACKGROUND_GAMMA_SCREEN, 0, 1.0);
+ 	}
+     }
+@@ -6061,8 +6062,9 @@
+   return png_load_body (f, img, &c);
+ }
+ 
+-#elif defined HAVE_NS
++#else /* HAVE_PNG */
+ 
++#ifdef HAVE_NS
+ static bool
+ png_load (struct frame *f, struct image *img)
+ {
+@@ -6070,8 +6072,10 @@
+                         image_spec_value (img->spec, QCfile, NULL),
+                         image_spec_value (img->spec, QCdata, NULL));
+ }
++#endif  /* HAVE_NS */
+ 
+-#endif /* HAVE_NS */
++
++#endif /* !HAVE_PNG */
+ 
+ 
+ 
+@@ -6462,6 +6466,7 @@
+   src->mgr.next_input_byte = NULL;
+ }
+ 
++
+ /* Load image IMG for use on frame F.  Patterned after example.c
+    from the JPEG lib.  */
+ 
+@@ -7250,7 +7255,11 @@
+ #ifdef WINDOWSNT
+ 
+ /* GIF library details.  */
++#if 5 < GIFLIB_MAJOR + (1 <= GIFLIB_MINOR)
++DEF_IMGLIB_FN (int, DGifCloseFile, (GifFileType *, int *));
++#else
+ DEF_IMGLIB_FN (int, DGifCloseFile, (GifFileType *));
++#endif
+ DEF_IMGLIB_FN (int, DGifSlurp, (GifFileType *));
+ #if GIFLIB_MAJOR < 5
+ DEF_IMGLIB_FN (GifFileType *, DGifOpen, (void *, InputFunc));
+@@ -7320,6 +7329,22 @@
+   return len;
+ }
+ 
++static int
++gif_close (GifFileType *gif, int *err)
++{
++  int retval;
++
++#if 5 < GIFLIB_MAJOR + (1 <= GIFLIB_MINOR)
++  retval = fn_DGifCloseFile (gif, err);
++#else
++  retval = fn_DGifCloseFile (gif);
++#if GIFLIB_MAJOR >= 5
++  if (err)
++    *err = gif->Error;
++#endif
++#endif
++  return retval;
++}
+ 
+ /* Load GIF image IMG for use on frame F.  Value is true if
+    successful.  */
+@@ -7344,9 +7369,7 @@
+   Lisp_Object specified_data = image_spec_value (img->spec, QCdata, NULL);
+   unsigned long bgcolor = 0;
+   EMACS_INT idx;
+-#if GIFLIB_MAJOR >= 5
+   int gif_err;
+-#endif
+ 
+   if (NILP (specified_data))
+     {
+@@ -7414,7 +7437,7 @@
+   if (!check_image_size (f, gif->SWidth, gif->SHeight))
+     {
+       image_error ("Invalid image size (see `max-image-size')", Qnil, Qnil);
+-      fn_DGifCloseFile (gif);
++      gif_close (gif, NULL);
+       return 0;
+     }
+ 
+@@ -7423,7 +7446,7 @@
+   if (rc == GIF_ERROR || gif->ImageCount <= 0)
+     {
+       image_error ("Error reading `%s'", img->spec, Qnil);
+-      fn_DGifCloseFile (gif);
++      gif_close (gif, NULL);
+       return 0;
+     }
+ 
+@@ -7435,7 +7458,7 @@
+       {
+ 	image_error ("Invalid image number `%s' in image `%s'",
+ 		     image_number, img->spec);
+-	fn_DGifCloseFile (gif);
++	gif_close (gif, NULL);
+ 	return 0;
+       }
+   }
+@@ -7453,7 +7476,7 @@
+   if (!check_image_size (f, width, height))
+     {
+       image_error ("Invalid image size (see `max-image-size')", Qnil, Qnil);
+-      fn_DGifCloseFile (gif);
++      gif_close (gif, NULL);
+       return 0;
+     }
+ 
+@@ -7471,7 +7494,7 @@
+ 	     && 0 <= subimg_left && subimg_left <= width - subimg_width))
+ 	{
+ 	  image_error ("Subimage does not fit in image", Qnil, Qnil);
+-	  fn_DGifCloseFile (gif);
++	  gif_close (gif, NULL);
+ 	  return 0;
+ 	}
+     }
+@@ -7479,7 +7502,7 @@
+   /* Create the X image and pixmap.  */
+   if (!image_create_x_image_and_pixmap (f, img, width, height, 0, &ximg, 0))
+     {
+-      fn_DGifCloseFile (gif);
++      gif_close (gif, NULL);
+       return 0;
+     }
+ 
+@@ -7650,7 +7673,18 @@
+ 			    Fcons (make_number (gif->ImageCount),
+ 				   img->lisp_data));
+ 
+-  fn_DGifCloseFile (gif);
++  if (gif_close (gif, &gif_err) == GIF_ERROR)
++    {
++#if 5 <= GIFLIB_MAJOR
++      char *error_text = fn_GifErrorString (gif_err);
++
++      if (error_text)
++	image_error ("Error closing `%s': %s",
++		     img->spec, build_string (error_text));
++#else
++      image_error ("Error closing `%s'", img->spec, Qnil);
++#endif
++    }
+ 
+   /* Maybe fill in the background field while we have ximg handy. */
+   if (NILP (image_spec_value (img->spec, QCbackground, NULL)))
+@@ -8224,7 +8258,14 @@
+     specified_bg = image_spec_value (img->spec, QCbackground, NULL);
+     if (!STRINGP (specified_bg)
+ 	|| !x_defined_color (f, SSDATA (specified_bg), &bgcolor, 0))
+-      x_query_frame_background_color (f, &bgcolor);
++      {
++#ifndef HAVE_NS
++	bgcolor.pixel = FRAME_BACKGROUND_PIXEL (f);
++	x_query_color (f, &bgcolor);
++#else
++	ns_query_color (FRAME_BACKGROUND_COLOR (f), &bgcolor, 1);
++#endif
++      }
+ 
+     bg_wand = NewPixelWand ();
+     PixelSetRed   (bg_wand, (double) bgcolor.red   / 65535);
+@@ -8376,7 +8417,6 @@
+ #endif /* HAVE_MAGICKEXPORTIMAGEPIXELS */
+     {
+       size_t image_height;
+-      MagickRealType color_scale = 65535.0 / QuantumRange;
+ 
+       /* Try to create a x pixmap to hold the imagemagick pixmap.  */
+       if (!image_create_x_image_and_pixmap (f, img, width, height, 0,
+@@ -8417,9 +8457,9 @@
+               PixelGetMagickColor (pixels[x], &pixel);
+               XPutPixel (ximg, x, y,
+                          lookup_rgb_color (f,
+-					   color_scale * pixel.red,
+-					   color_scale * pixel.green,
+-					   color_scale * pixel.blue));
++                                           pixel.red,
++                                           pixel.green,
++                                           pixel.blue));
+             }
+         }
+       DestroyPixelIterator (iterator);
+@@ -8641,6 +8681,7 @@
+ DEF_IMGLIB_FN (gboolean, rsvg_handle_write, (RsvgHandle *, const guchar *, gsize, GError **));
+ DEF_IMGLIB_FN (gboolean, rsvg_handle_close, (RsvgHandle *, GError **));
+ DEF_IMGLIB_FN (GdkPixbuf *, rsvg_handle_get_pixbuf, (RsvgHandle *));
++DEF_IMGLIB_FN (void *, rsvg_handle_set_size_callback, (RsvgHandle *, RsvgSizeFunc, gpointer, GDestroyNotify));
+ 
+ DEF_IMGLIB_FN (int, gdk_pixbuf_get_width, (const GdkPixbuf *));
+ DEF_IMGLIB_FN (int, gdk_pixbuf_get_height, (const GdkPixbuf *));
+@@ -8662,18 +8703,13 @@
+ static bool
+ init_svg_functions (void)
+ {
+-  HMODULE library, gdklib = NULL, glib = NULL, gobject = NULL;
++  HMODULE library, gdklib, glib, gobject;
+ 
+   if (!(glib = w32_delayed_load (Qglib))
+       || !(gobject = w32_delayed_load (Qgobject))
+       || !(gdklib = w32_delayed_load (Qgdk_pixbuf))
+       || !(library = w32_delayed_load (Qsvg)))
+-    {
+-      if (gdklib)  FreeLibrary (gdklib);
+-      if (gobject) FreeLibrary (gobject);
+-      if (glib)    FreeLibrary (glib);
+-      return 0;
+-    }
++    return 0;
+ 
+   LOAD_IMGLIB_FN (library, rsvg_handle_new);
+   LOAD_IMGLIB_FN (library, rsvg_handle_get_dimensions);
+@@ -8861,7 +8897,14 @@
+   specified_bg = image_spec_value (img->spec, QCbackground, NULL);
+   if (!STRINGP (specified_bg)
+       || !x_defined_color (f, SSDATA (specified_bg), &background, 0))
+-    x_query_frame_background_color (f, &background);
++    {
++#ifndef HAVE_NS
++      background.pixel = FRAME_BACKGROUND_PIXEL (f);
++      x_query_color (f, &background);
++#else
++      ns_query_color (FRAME_BACKGROUND_COLOR (f), &background, 1);
++#endif
++    }
+ 
+   /* SVG pixmaps specify transparency in the last byte, so right
+      shift 8 bits to get rid of it, since emacs doesn't support
