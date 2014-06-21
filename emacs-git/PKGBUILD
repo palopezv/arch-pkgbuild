@@ -15,7 +15,7 @@
 #
 
 pkgname=emacs-git
-pkgver=24.4.50.r131658
+pkgver=24.4.50.r131695
 pkgrel=1
 pkgdesc="GNU Emacs. Official git trunk."
 arch=('i686' 'x86_64')
@@ -28,8 +28,8 @@ makedepends=('git')
 conflicts=('emacs')
 provides=('emacs')
 install="$pkgname".install
-source=("$pkgname::git://git.savannah.gnu.org/emacs.git" 'image_c.patch')
-md5sums=('SKIP' 'ac3ebb7bbcae64337dddebef9d2696e4')
+source=("$pkgname::git://git.savannah.gnu.org/emacs.git")
+md5sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$pkgname"
@@ -41,7 +41,6 @@ pkgver() {
 
 prepare() {
   cd "$srcdir/$pkgname"
-  patch -Np0 -i "../image_c.patch"
   ./autogen.sh                                                            
 }
 
