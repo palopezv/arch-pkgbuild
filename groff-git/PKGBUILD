@@ -1,13 +1,5 @@
 # See AUR interface for current maintainer.
 
-#
-# TIP: Don't run this on a tmpfs unless you have oodles of RAM.
-#      The initial cloned repo is huge, 1.2GB or more. You can run
-#      "git gc --aggressive" on it to reduce its size drastically,
-#      but it will take a long time in a low-spec machine or if you
-#      have less than 4GB RAM.
-#
-
 pkgname=groff-git
 pkgver=1.22.2.r2426
 pkgrel=1
