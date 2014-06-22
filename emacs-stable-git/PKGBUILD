@@ -15,7 +15,7 @@
 #
 
 pkgname=emacs-stable-git
-pkgver=24.3.91.r131114
+pkgver=24.3.91.r131119
 pkgrel=1
 pkgdesc="GNU Emacs. Official git, stable branch."
 arch=('i686' 'x86_64')
