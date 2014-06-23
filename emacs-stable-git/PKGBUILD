@@ -61,6 +61,8 @@ build() {
     --with-xft
 
   make
+  cd "$srcdir/$pkgname/lisp"
+  make autoloads
 }
 
 package() {
