@@ -60,9 +60,7 @@ build() {
     --with-x-toolkit=gtk3 \
     --with-xft
 
-  make bootstrap
-  cd "$srcdir/$pkgname/lisp"
-  make autoloads
+  make
 }
 
 package() {
