@@ -15,7 +15,7 @@
 #
 
 pkgname=emacs-git
-pkgver=24.4.50.r131702
+pkgver=24.4.50.r131767
 pkgrel=1
 pkgdesc="GNU Emacs. Official git trunk."
 arch=('i686' 'x86_64')
