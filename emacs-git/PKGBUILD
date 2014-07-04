@@ -15,7 +15,7 @@
 #
 
 pkgname=emacs-git
-pkgver=24.4.50.r131841
+pkgver=24.4.50.r131869
 pkgrel=1
 pkgdesc="GNU Emacs. Official git trunk."
 arch=('i686' 'x86_64')
@@ -75,6 +75,8 @@ package() {
   rm "$pkgdir"/usr/share/info/info.info.gz
   # fix user/root permissions on usr/share files
   find "$pkgdir"/usr/share/emacs/ -exec chown root:root {} \;
+  # Drop compressed .el.gz files. Comment out if needed.
+  find "$pkgdir"/usr/share/emacs/ -name "*.el.gz" -exec rm {} \;
   # fix perms on /var/games
   chmod 775 "$pkgdir"/var/games
   chmod 775 "$pkgdir"/var/games/emacs
