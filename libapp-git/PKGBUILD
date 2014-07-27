@@ -1,6 +1,6 @@
 # Maintainer: Greg Smith <gasmith@gmail.com>
 pkgname=libapp-git
-pkgver=20110613
+pkgver=20140527.r52
 pkgrel=1
 pkgdesc="Utilities for repetitive tasks in app development"
 arch=('i686' 'x86_64')
@@ -12,10 +12,11 @@ source=("libapp-git::git://github.com/drotiro/libapp.git")
 md5sums=('SKIP')
 
 pkgver() {
-  cd $pkgname
-  #git rev-list --count HEAD).$(git rev-parse --short HEAD
-  #git log -1 --pretty=%ai --date=iso HEAD | awk '{print $1}' | sed s/\-//g
-  git log -1 --format="%cd" --date=short | sed 's/-//g'
+  cd "$srcdir/$pkgname"
+  printf %s.r%s \
+    $(git log -1 --format="%cd" --date=short | sed 's/-//g') \
+    $(git rev-list --count HEAD)
+    # $(git rev-list --count HEAD).$(git rev-parse --short HEAD)
 }
 
 build() {
