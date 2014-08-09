@@ -1,4 +1,5 @@
-# Maintainer: Greg Smith <gasmith@gmail.com>
+# See AUR interface for current maintainer.
+
 pkgname=libapp-git
 pkgver=20140527.r52
 pkgrel=1
