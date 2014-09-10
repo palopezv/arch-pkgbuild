@@ -16,20 +16,20 @@ depends=('alsa-lib' 'desktop-file-utils' 'flac' 'gconf'  'gtk2'
          'libpng' 'libxss' 'libxtst' 'nss' 'opus' 'snappy' 
 	 'speech-dispatcher' 'ttf-font' 'xdg-utils')
 optdepends=('kdebase-kdialog: needed for file dialogs in KDE')
-provides=("google-chrome-stable=$pkgver" "google-chrome=$pkgver")
+provides=("google-chrome")
 conflicts=("google-chrome", "google-chrome-beta")
 options=('!emptydirs' '!strip')
 install=${pkgname}.install
 _channel=stable
-_arch=i386
-[ "$CARCH" = 'x86_64' ] && _arch=amd64
+_arch=amd64
+[[ "$CARCH" = 'i686' ]] && _arch=i386
 source=(
   "google-chrome-${_channel}_${pkgver}_${_arch}.deb::https://dl.google.com/linux/direct/google-chrome-${_channel}_current_${_arch}.deb"
   'https://www.google.com/intl/en/chrome/browser/privacy/eula_text.html')
 md5sums=(
   'SKIP'
   'ba19ea498f294975d320ff0b26a6cd63')
-[ "$CARCH" = 'x86_64' ] && md5sums[0]='SKIP'
+[ "$CARCH" = 'i386' ] && md5sums[0]='SKIP'
 
 package() {
   # Extract data.tar.lzma into place
