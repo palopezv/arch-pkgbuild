@@ -34,7 +34,7 @@ package() {
   # Extract data.tar.lzma into place
   bsdtar -xf data.tar.lzma -C "${pkgdir}/"
 
-  # Install icons
+  # Install components
   # Icons
   for i in 16 22 24 32 48 64 128 256; do
     install -Dm644 
