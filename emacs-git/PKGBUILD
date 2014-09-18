@@ -15,7 +15,7 @@
 #
 
 pkgname=emacs-git
-pkgver=24.4.50.r132361
+pkgver=24.4.50.r132458
 pkgrel=1
 pkgdesc="GNU Emacs. Official git trunk."
 arch=('i686' 'x86_64')
@@ -53,7 +53,6 @@ build() {
     --libexecdir=/usr/lib \
     --localstatedir=/var \
     --mandir=/usr/share/man \
-    --enable-link-time-optimization \
     --with-sound=alsa \
     --without-gconf \
     --with-x-toolkit=gtk3 \
