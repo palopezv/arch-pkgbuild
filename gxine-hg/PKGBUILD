@@ -1,8 +1,8 @@
 # See AUR interface to contact current maintainer.
 
 pkgname=gxine-hg
-pkgver=r2284.5703ec9e01f1
-pkgrel=1
+pkgver=r2285.e05f58d2b749
+pkgrel=2
 pkgdesc="GTK+ frontend for xine. Development version."
 arch=('i686' 'x86_64')
 url="http://www.xine-project.org/"
@@ -10,7 +10,7 @@ license=('GPL')
 conflicts=('gxine')
 provides=('gxine')
 depends=('xine-lib' 'gtk2' 'js185' 'dbus-glib' 
-	 'lirc-utils' 'desktop-file-utils' 'hicolor-icon-theme')
+	 'desktop-file-utils' 'hicolor-icon-theme')
 makedepends=('libxaw' 'autoconf' 'mercurial')
 optdepends=('libxaw: Mozilla browser plugin')
 options=('!libtool')
@@ -42,6 +42,7 @@ build() {
               --with-gudev \
               --with-pic \
               --enable-watchdog \
+	      --disable-lirc \
 	      --disable-rpath \
 	      --disable-ffjs \
 	      --disable-seajs \
