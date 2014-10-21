@@ -1,7 +1,7 @@
 # Maintiner: See AUR page for present maintainer.
 # Contributor: Cyker Way <cykerway at gmail dot com>
 pkgname=latex-beamer-hg
-pkgver=660.7e17aaf783d1
+pkgver=663.dabb769ac43e
 pkgrel=1
 pkgdesc='Beamer is a LaTeX class for creating slides for presentations.'
 arch=('any')
