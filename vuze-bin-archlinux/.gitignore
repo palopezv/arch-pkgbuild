@@ -1,0 +1,13 @@
+*~
+pkg/
+src/
+*.gz
+*.bz2
+*.xz
+*.tgz
+*.tbz
+*.txz
+*.jar
+*.zip
+*.tar
+*.torrent
