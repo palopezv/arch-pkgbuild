@@ -48,6 +48,7 @@ build() {
 	      --disable-seajs \
               --disable-deprecated \
               --disable-own-playlist-parsers \
+	      --with-spidermonkey=/usr/include/mozjs-24 \
               VENDOR_PKG_VERSION="$pkgver-$pkgrel; Arch Linux"
 
   make
