@@ -1,13 +1,15 @@
 # See AUR interface to contact current maintainer.
 
+# Read http://thelinuxrain.com/articles/memo-note-taking-unix-style
+# for some tips on how to use this.
+
 pkgname=memo-notes-git
-pkgver=20141024.r47
+pkgver=1.0.r52
 pkgrel=1
 pkgdesc="memo: A CLI note taking application."
 arch=('i686' 'x86_64')
 url="http://www.ideabyte.net/memo/"
 license=('custom')
-depends=('ncurses')
 makedepends=('git')
 source=("$pkgname::git://github.com/nrosvall/memo.git")
 sha256sums=('SKIP')
@@ -15,8 +17,9 @@ sha256sums=('SKIP')
 pkgver() {
   cd "$pkgname"
   printf "%s.r%s" \
-    "$(git log -1 --format="%cd" --date=short | sed 's/\-//g')" \
+    "$(git describe --abbrev=0 | sed 's/^v//')" \
     "$(git rev-list --count HEAD)"
+    #"$(git log -1 --format="%cd" --date=short | sed 's/\-//g')" \
     #"$(git rev-parse --short HEAD)"
 }
 
