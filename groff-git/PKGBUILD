@@ -1,7 +1,7 @@
 # See AUR interface for current maintainer.
 
 pkgname=groff-git
-pkgver=1.22.2.r2569
+pkgver=1.22.3.r2653
 pkgrel=1
 pkgdesc="GNU Troff. Official git trunk."
 arch=('i686' 'x86_64')
