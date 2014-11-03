@@ -30,6 +30,7 @@ ac_add_options --enable-startup-notification
 ac_add_options --enable-extensions=default
 ac_add_options --enable-optimize="-O2 -fomit-frame-pointer -pipe"
 ac_add_options --disable-crashreporter
+ac_add_options --disable-freetypetest
 ac_add_options --disable-necko-wifi
 
 export BUILD_OFFICIAL=1
