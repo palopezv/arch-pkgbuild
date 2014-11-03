@@ -84,6 +84,7 @@ prepare() {
 
   unset CFLAGS
   unset CXXFLAGS
+  unset CPPFLAGS
 }
 
 build()
