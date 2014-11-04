@@ -3,7 +3,7 @@
 # See AUR interface for current maintainer.
 
 # This file is provided to you under the terms of the BSD 2-clause
-# license. <http://opensource.org/licenses/BSD-2-Clause>
+# UNLICENCE <http://unlicense.org/>
 
 pkgname=vuze
 pkgver=5.4.0.0
