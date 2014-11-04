@@ -21,7 +21,7 @@ install="$pkgname.install"
 options=(!strip)
 optdepends=(
   'webkitgtk: For for a fully functional Vuze GUI. GTK3 based.'
-  'mldht: Talk DHT to uTorrent, Transmission, etc. Install with internal pluin manager, it autoupdates.'
+  'mldht: Talk DHT to uTorrent, Transmission, etc. Install with internal plugin manager, it autoupdates.'
   'i2phelper: I2P support. Install with internal plugin manager, it autoupdates.'
   )
 noextract=("Vuze_${_ver}${_extra}.jar") 
