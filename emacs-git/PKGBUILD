@@ -48,6 +48,7 @@ build() {
     --pdfdir=/usr/share/doc/emacs/pdf \
     --with-sound=alsa \
     --without-gconf \
+    --without-compress-install \
     --with-x-toolkit=gtk3 \
     --with-xft
 
