@@ -7,7 +7,7 @@
 #
 
 pkgname=emacs-git
-pkgver=25.0.50.r118175
+pkgver=25.0.50.r118412
 pkgrel=1
 pkgdesc="GNU Emacs. Official git trunk."
 arch=('i686' 'x86_64')
@@ -48,7 +48,6 @@ build() {
     --pdfdir=/usr/share/doc/emacs/pdf \
     --with-sound=alsa \
     --without-gconf \
-    --without-compress-install \
     --with-x-toolkit=gtk3 \
     --with-xft
 
