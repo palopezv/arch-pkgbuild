@@ -8,7 +8,7 @@
 
 
 pkgname=emacs24-git
-pkgver=24.4.51.r116505
+pkgver=24.4.51.r116539
 pkgrel=1
 pkgdesc="GNU Emacs. Official git, emacs 24 branch."
 arch=('i686' 'x86_64')
