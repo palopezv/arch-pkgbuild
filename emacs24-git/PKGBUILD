@@ -8,7 +8,7 @@
 
 
 pkgname=emacs24-git
-pkgver=24.4.51.r116539
+pkgver=24.4.51.r116571
 pkgrel=1
 pkgdesc="GNU Emacs. Official git, emacs 24 branch."
 arch=('i686' 'x86_64')
@@ -49,7 +49,6 @@ build() {
     --mandir=/usr/share/man \
     --with-sound=alsa \
     --without-gconf \
-    --without-compress-install \
     --with-x-toolkit=gtk3 \
     --with-xft
 
