@@ -31,10 +31,10 @@ pkgver() {
 }
 
 
-prepare() {
-  cd "$srcdir/$pkgname"
-  ./autogen.sh                                                            
-}
+#prepare() {
+#  cd "$srcdir/$pkgname"
+#  ./autogen.sh                                                            
+#}
 
 build() {
   cd "$srcdir/$pkgname"
