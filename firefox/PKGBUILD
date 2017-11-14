@@ -65,6 +65,8 @@ ac_add_options --enable-rust-simd
 ac_add_options --enable-ccache
 ac_add_options --enable-strip
 ac_add_options --disable-debug-symbols
+ac_add_options --disable-tests
+ac_add_options --disable-gtest-in-build
 mk_add_options PYTHON=/usr/bin/python2
 
 # Branding
