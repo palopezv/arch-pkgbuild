@@ -44,7 +44,7 @@ _google_api_key=AIzaSyDwr302FpOSkGRpLlUpPThNTDPbXcIn_FM
 _mozilla_api_key=16674381-f021-49de-8622-3021c5942aff
 
 prepare() {
-  cd firefox-$_pkgver
+  cd firefox-$pkgver
   patch -Np1 -i ../firefox-install-dir.patch
 
   # https://bugzilla.mozilla.org/show_bug.cgi?id=1382942
@@ -101,7 +101,7 @@ END
 }
 
 build() {
-  cd firefox-$_pkgver
+  cd firefox-$pkgver
 
   # _FORTIFY_SOURCE causes configure failures
   CPPFLAGS+=" -O2"
@@ -116,7 +116,7 @@ build() {
 }
 
 package() {
-  cd firefox-$_pkgver
+  cd firefox-$pkgver
   DESTDIR="$pkgdir" ./mach install
   #find . -name '*crashreporter-symbols-full.zip' -exec cp -fvt "$startdir" {} +
 
