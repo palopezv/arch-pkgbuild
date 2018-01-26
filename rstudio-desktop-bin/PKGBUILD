@@ -15,30 +15,21 @@ pkgname=rstudio-desktop-bin
 pkgver=1.1.414
 pkgrel=1
 pkgdesc="An integrated development environment (IDE) for R (binary version from RStudio official repository)"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 license=('GPL')
 url="http://www.rstudio.org/"
 depends=('r' 'hicolor-icon-theme' 'libxcomposite' 'libxslt' 'shared-mime-info' 'libxrandr')
 #makedepends=('patchelf')
-optdepends=('pandoc: markdown support'
-            'pandoc-citeproc: markdown support')
-conflicts=('rstudio-desktop' 'rstudio-desktop-git' 'rstudio-desktop-preview-bin')
-provides=("rstudio-desktop=${pkgver}")
+#optdepends=('pandoc: markdown support'
+#            'pandoc-citeproc: markdown support')
+conflicts=('rstudio-desktop' 'rstudio-desktop-git' 'rstudio-desktop-preview-bin' 'pandoc' 'pandoc-citeproc')
+provides=("rstudio-desktop=${pkgver}" 'pandoc' 'pandoc-citeproc')
 options=(!strip)
+md5sums=('759fd531bfbfc47a6f211953750de9e4'
+                '84e61f5eda991b978fa168d6762f7990'
+                '391ba54997d6faddbfe41a185a823ee4')
 
-md5sums_i686=(
-44d16f29fcdbef82b2652adbef7cf53d
-795a3ca3f2048c4dc32d25560e191c35
-eca697b2b8efbed3d2241f6b0c8c15e4)
-md5sums_x86_64=(
-759fd531bfbfc47a6f211953750de9e4
-84e61f5eda991b978fa168d6762f7990
-391ba54997d6faddbfe41a185a823ee4)
-
-source_i686=("https://download1.rstudio.org/rstudio-${pkgver}-i386.deb"
-"http://archive.ubuntu.com/ubuntu/pool/main/g/gstreamer0.10/libgstreamer0.10-0_0.10.36-1.2ubuntu3_i386.deb"
-"http://security.ubuntu.com/ubuntu/pool/main/g/gst-plugins-base0.10/libgstreamer-plugins-base0.10-0_0.10.36-1.1ubuntu2.1_i386.deb")
-source_x86_64=("https://download1.rstudio.org/rstudio-${pkgver}-amd64.deb"
+source=("https://download1.rstudio.org/rstudio-${pkgver}-amd64.deb"
 "http://archive.ubuntu.com/ubuntu/pool/main/g/gstreamer0.10/libgstreamer0.10-0_0.10.36-1.2ubuntu3_amd64.deb"
 "http://security.ubuntu.com/ubuntu/pool/main/g/gst-plugins-base0.10/libgstreamer-plugins-base0.10-0_0.10.36-1.1ubuntu2.1_amd64.deb")
 
@@ -46,9 +37,7 @@ install="$pkgname".install
 
 package() {
 
-	shopt -s extglob
-
-  msg "Converting debian package..."
+  shopt -s extglob
 
   cd "$srcdir"
   tar zxpf data.tar.gz -C "$pkgdir"
@@ -61,8 +50,8 @@ package() {
   tar Jxf data.tar.xz \
       --wildcards \
       -C "${pkgdir}/usr/lib/rstudio/bin" \
-      ./usr/lib/${CARCH/686/386}-linux-gnu/libgstreamer-0.10.so.\* \
-      ./usr/lib/${CARCH/686/386}-linux-gnu/libgstbase-0.10.so.\* \
+      ./usr/lib/$ARCH-linux-gnu/libgstreamer-0.10.so.\* \
+      ./usr/lib/$ARCH-linux-gnu/libgstbase-0.10.so.\* \
       --strip-components=4
 
   ar x libgstreamer-plugins-base0.10-0_0.10.36-1.1ubuntu2.1_${ARCH}.deb
@@ -82,9 +71,11 @@ package() {
 #  cd "$pkgdir/usr/lib/rstudio/bin/rsclang"
 #  patchelf --set-rpath '$ORIGIN/..' libclang.so
 
-  cd "$pkgdir/usr/lib/rstudio/bin/pandoc"
-  ln -sf /usr/bin/pandoc ./
-  ln -sf /usr/bin/pandoc-citeproc ./
+  #cd "$pkgdir/usr/lib/rstudio/bin/pandoc"
+  #ln -sf /usr/bin/pandoc ./
+  #ln -sf /usr/bin/pandoc-citeproc ./
+  ln -sf /usr/lib/rstudio/bin/pandoc/pandoc "$pkgdir/usr/bin/"
+  ln -sf /usr/lib/rstudio/bin/pandoc/pandoc-citeproc "$pkgdir/usr/bin/"
 
 #  cd "$pkgdir/usr/lib/rstudio/bin/plugins"
 #  ls */*.so | xargs -n1 patchelf --set-rpath '$ORIGIN/../..'
@@ -119,4 +110,5 @@ exec /usr/lib/rstudio/bin/rstudio "$@"
 
   sed -i 's|/usr/lib/rstudio/bin/rstudio|/usr/bin/rstudio-bin|' "$pkgdir/usr/share/applications/rstudio.desktop"
 }
+
 # vim:ft=sh tabstop=2 expandtab
