@@ -12,3 +12,5 @@ src/
 *.tar
 *.jar
 *.zip
+*.deb
+*.rpm
